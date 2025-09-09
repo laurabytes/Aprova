@@ -3,7 +3,9 @@ package com.Aprova.demo.Service;
 import com.Aprova.demo.Entity.Materia;
 import com.Aprova.demo.Repository.MateriaRepository;
 import com.Aprova.demo.dto.request.MateriaDTORequest;
+import com.Aprova.demo.dto.request.MateriaDTOUpdateRequest;
 import com.Aprova.demo.dto.response.MateriaDTOResponse;
+import com.Aprova.demo.dto.response.MateriaDTOUpdateResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -61,24 +63,24 @@ public class MateriaService {
 
     }
 
-//    public MateriaDTOUpdateResponse atualizarStatusMateria(Integer materiaId, MateriaDTOUpdateRequest materiaDTOUpdateRequest) {
-//        //antes de atualizar busca se existe o registro a ser atualizar
-//        Materia materia = this.listarMateriaId(materiaId);
-//
-//        //se encontra o registro a ser atualizado
-//        if (materia != null) {
-//            //atualizamos unicamente o campo de status
-//            materia.setStatus(materiaDTOUpdateRequest.getStatus());
-//
-//            //com o objeto no formato correto tipo "participante" o comando "save" salva
-//            // no banco de dados o objeto atualizado
-//            Pedido tempResponse = pedidoRepository.save(pedido);
-//            return modelMapper.map(tempResponse, PedidoDTOUpdateResponse.class);
-//        }
-//        else{
-//            return null;
-//        }
-//    }
+    public MateriaDTOUpdateResponse atualizarStatusMateria(Integer materiaId, MateriaDTOUpdateRequest materiaDTOUpdateRequest) {
+        //antes de atualizar busca se existe o registro a ser atualizar
+        Materia materia = this.listarMateriaId(materiaId);
+
+        //se encontra o registro a ser atualizado
+        if (materia != null) {
+            //atualizamos unicamente o campo de status
+            materia.setStatus(materiaDTOUpdateRequest.getStatus());
+
+            //com o objeto no formato correto tipo "participante" o comando "save" salva
+            // no banco de dados o objeto atualizado
+            Materia tempResponse = materiaRepository.save(materia);
+            return modelMapper.map(tempResponse, MateriaDTOUpdateResponse.class);
+        }
+        else{
+            return null;
+        }
+    }
 
     public void apagarMateria(Integer materiaId){
         materiaRepository.apagadoLogicoMateria(materiaId);

@@ -19,7 +19,7 @@ public interface SessaoEstudoRepository extends JpaRepository<SessaoEstudo, Inte
     void apagarSessaoEstudo(@Param("id") Integer sessaoEstudoId);
 
     @Query("SELECT s FROM SessaoEstudo s WHERE s.status >= 0")
-    List<SessaoEstudo> listarSessoesEstudo();
+    List<SessaoEstudo> listarSessaoEstudo();
 
     @Query("SELECT s FROM SessaoEstudo s WHERE s.sessaoEstudoId = :id")
     SessaoEstudo obterSessaoEstudoPorId(@Param("id") Integer sessaoEstudoId);

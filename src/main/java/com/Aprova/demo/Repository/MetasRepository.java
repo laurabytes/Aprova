@@ -16,11 +16,11 @@ public interface MetasRepository extends JpaRepository<Metas, Integer> {
     @Modifying
     @Transactional
     @Query("UPDATE Metas m SET m.status = -1 WHERE m.metasId = :id")
-    void apagarMeta(@Param("id") Integer metasId);
+    void apagarMetas(@Param("id") Integer metasId);
 
     @Query("SELECT m FROM Metas m WHERE m.status >= 0")
     List<Metas> listarMetas();
 
     @Query("SELECT m FROM Metas m WHERE m.metasId = :id")
-    Metas obterMetaPorId(@Param("id") Integer metasId);
+    Metas obterMetasPorId(@Param("id") Integer metasId);
 }

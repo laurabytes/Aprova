@@ -20,6 +20,8 @@ public class Materia {
     @Column(name = "materia_cor", length = 45)
     private String cor;
 
+    @Column(name = "materia_status")
+    private int status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id")
@@ -55,6 +57,14 @@ public class Materia {
 
     public void setCor(String cor) {
         this.cor = cor;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public Usuario getUsuario() {
