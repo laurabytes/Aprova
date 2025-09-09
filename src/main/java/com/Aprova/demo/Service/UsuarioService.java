@@ -1,13 +1,14 @@
 package com.Aprova.demo.Service;
 
-import com.Aprova.demo.Entity.Materia;
-import com.Aprova.demo.Entity.SessaoEstudo;
 import com.Aprova.demo.Entity.Usuario;
 import com.Aprova.demo.Repository.UsuarioRepository;
+import com.Aprova.demo.dto.request.UsuarioDTORequest;
+import com.Aprova.demo.dto.response.UsuarioDTOResponse;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UsuarioService {
@@ -15,22 +16,36 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public List<Usuario> findAll() {
-        return usuarioRepository.findAll();
+    @Autowired
+    private ModelMapper modelMapper;
+
+    public List<Usuario> listarUsuarios() {
+        return usuarioRepository.listarUsuarios();
     }
 
-    public Optional<Usuario> findById(Integer id) {
-        return usuarioRepository.findById(id);
+    public UsuarioDTOResponse getUsuarioById(Integer id) {
+        Usuario usuario = usuarioRepository.obterUsuarioPorId(id);
+        return modelMapper.map(usuario, UsuarioDTOResponse.class);
     }
 
-    public Usuario save(Usuario usuario) {
-        return usuarioRepository.save(usuario);
+    public UsuarioDTOResponse saveUsuario(UsuarioDTORequest usuarioDTORequest) {
+        Usuario usuario = modelMapper.map(usuarioDTORequest, Usuario.class);
+        Usuario savedUsuario = usuarioRepository.save(usuario);
+        return modelMapper.map(savedUsuario, UsuarioDTOResponse.class);
     }
 
-    public void deleteById(Integer id) {
-        usuarioRepository.deleteById(id);
+    public UsuarioDTOResponse updateUsuario(Integer id, UsuarioDTORequest usuarioDTORequest) {
+        Usuario usuarioExistente = usuarioRepository.obterUsuarioPorId(id);
+        if (usuarioExistente != null) {
+            modelMapper.map(usuarioDTORequest, usuarioExistente);
+            Usuario updatedUsuario = usuarioRepository.save(usuarioExistente);
+            return modelMapper.map(updatedUsuario, UsuarioDTOResponse.class);
+        } else {
+            throw new IllegalArgumentException("Usuário não encontrado");
+        }
     }
-    public List<Usuario> listarUsuario(){
-        return usuarioRepository.findAll();
+
+    public void deleteUsuario(Integer id) {
+        usuarioRepository.apagarUsuario(id);
     }
 }

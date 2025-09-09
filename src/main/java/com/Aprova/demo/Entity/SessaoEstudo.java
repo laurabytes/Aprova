@@ -17,8 +17,8 @@ public class SessaoEstudo {
     @Column(name = "sessao_estudo_fim", length = 45)
     private String fim;
 
-    @Column(name = "sessao_estudo_status", length = 45)
-    private String status;
+    @Column(name = "sessao_estudo_status")
+    private int status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "materia_id")
@@ -28,5 +28,52 @@ public class SessaoEstudo {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    // Gerar Getters e Setters
+
+    public Integer getSessaoEstudoId() {
+        return sessaoEstudoId;
+    }
+
+    public void setSessaoEstudoId(Integer sessaoEstudoId) {
+        this.sessaoEstudoId = sessaoEstudoId;
+    }
+
+    public String getInicio() {
+        return inicio;
+    }
+
+    public void setInicio(String inicio) {
+        this.inicio = inicio;
+    }
+
+    public String getFim() {
+        return fim;
+    }
+
+    public void setFim(String fim) {
+        this.fim = fim;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public Materia getMateria() {
+        return materia;
+    }
+
+    public void setMateria(Materia materia) {
+        this.materia = materia;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 }

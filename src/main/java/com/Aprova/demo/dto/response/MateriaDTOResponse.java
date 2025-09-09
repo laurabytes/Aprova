@@ -1,29 +1,13 @@
-package com.Aprova.demo.Entity;
+package com.Aprova.demo.dto.response;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "materia")
-public class Materia {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "materia_id")
+public class MateriaDTOResponse {
     private Integer id;
-
-    @Column(name = "materia_nome", length = 45)
     private String nome;
-
-    @Column(name = "materia_prioridade", length = 45)
     private String prioridade;
-
-    @Column(name = "materia_cor", length = 45)
     private String cor;
+    private int status;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
+    // --- Getters e Setters ---
 
     public Integer getId() {
         return id;
@@ -57,11 +41,11 @@ public class Materia {
         this.cor = cor;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public int getStatus() {
+        return status;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

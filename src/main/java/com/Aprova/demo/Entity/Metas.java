@@ -17,9 +17,52 @@ public class Metas {
     @Column(name = "metas_data", length = 45)
     private String data;
 
+    @Column(name = "metas_status")
+    private int status;
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    // Gerar Getters e Setters
+
+    public Integer getMetasId() {
+        return metasId;
+    }
+
+    public void setMetasId(Integer metasId) {
+        this.metasId = metasId;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 }
