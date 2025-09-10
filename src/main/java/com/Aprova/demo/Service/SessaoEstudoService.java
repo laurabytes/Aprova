@@ -1,22 +1,15 @@
 package com.Aprova.demo.Service;
 
-import com.Aprova.demo.Entity.Materia;
 import com.Aprova.demo.Entity.SessaoEstudo;
-import com.Aprova.demo.Repository.MateriaRepository;
 import com.Aprova.demo.Repository.SessaoEstudoRepository;
-import com.Aprova.demo.dto.request.MateriaDTORequest;
-import com.Aprova.demo.dto.request.MateriaDTOUpdateRequest;
 import com.Aprova.demo.dto.request.SessaoEstudoDTORequest;
 import com.Aprova.demo.dto.request.SessaoEstudoDTOUpdateRequest;
-import com.Aprova.demo.dto.response.MateriaDTOResponse;
-import com.Aprova.demo.dto.response.MateriaDTOUpdateResponse;
 import com.Aprova.demo.dto.response.SessaoEstudoDTOResponse;
 import com.Aprova.demo.dto.response.SessaoEstudoDTOUpdateResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SessaoEstudoService {
