@@ -10,7 +10,7 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "usuario_id")
-    private Integer usuarioId;
+    private Integer id;
 
     @Column(name = "usuario_nome", length = 30)
     private String nome;
@@ -34,13 +34,12 @@ public class Usuario {
     private List<SessaoEstudo> sessoesEstudo;
 
 
-
-    public Integer getUsuarioId() {
-        return usuarioId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setUsuarioId(Integer usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNome() {

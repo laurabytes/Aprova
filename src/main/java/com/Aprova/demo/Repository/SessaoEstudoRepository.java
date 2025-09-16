@@ -15,12 +15,12 @@ public interface SessaoEstudoRepository extends JpaRepository<SessaoEstudo, Inte
 
     @Modifying
     @Transactional
-    @Query("UPDATE SessaoEstudo s SET s.status = -1 WHERE s.sessaoEstudoId = :id")
+    @Query("UPDATE SessaoEstudo s SET s.status = -1 WHERE s.id = :id")
     void apagarSessaoEstudo(@Param("id") Integer sessaoEstudoId);
 
     @Query("SELECT s FROM SessaoEstudo s WHERE s.status >= 0")
     List<SessaoEstudo> listarSessaoEstudo();
 
-    @Query("SELECT s FROM SessaoEstudo s WHERE s.sessaoEstudoId = :id")
+    @Query("SELECT s FROM SessaoEstudo s WHERE s.id = :id")
     SessaoEstudo obterSessaoEstudoPorId(@Param("id") Integer sessaoEstudoId);
 }

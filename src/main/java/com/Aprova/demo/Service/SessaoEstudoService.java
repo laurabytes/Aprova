@@ -1,7 +1,11 @@
 package com.Aprova.demo.Service;
 
+import com.Aprova.demo.Entity.Materia;
 import com.Aprova.demo.Entity.SessaoEstudo;
+import com.Aprova.demo.Entity.Usuario;
+import com.Aprova.demo.Repository.MateriaRepository;
 import com.Aprova.demo.Repository.SessaoEstudoRepository;
+import com.Aprova.demo.Repository.UsuarioRepository;
 import com.Aprova.demo.dto.request.SessaoEstudoDTORequest;
 import com.Aprova.demo.dto.request.SessaoEstudoDTOUpdateRequest;
 import com.Aprova.demo.dto.response.SessaoEstudoDTOResponse;
@@ -17,10 +21,18 @@ public class SessaoEstudoService {
     @Autowired
     private final SessaoEstudoRepository sessaoEstudoRepository;
     @Autowired
+    private final MateriaRepository materiaRepository;
+
+    private final UsuarioRepository usuarioRepository;
+
+    @Autowired
     private ModelMapper modelMapper;
 
-    public SessaoEstudoService(SessaoEstudoRepository sessaoEstudoRepository) {
+    public SessaoEstudoService(SessaoEstudoRepository sessaoEstudoRepository, MateriaRepository materiaRepository, UsuarioRepository usuarioRepository, ModelMapper modelMapper) {
         this.sessaoEstudoRepository = sessaoEstudoRepository;
+        this.usuarioRepository = usuarioRepository;
+        this.materiaRepository = materiaRepository;
+        this.modelMapper= modelMapper;
     }
 
     public List<SessaoEstudo> listarSessaoEstudo(){
@@ -34,6 +46,13 @@ public class SessaoEstudoService {
     public SessaoEstudoDTOResponse criarSessaoEstudo(SessaoEstudoDTORequest sessaoEstudoDTORequest) {
 
         SessaoEstudo sessaoEstudo = modelMapper.map(sessaoEstudoDTORequest, SessaoEstudo.class);
+        Materia materia = materiaRepository.obterMateriaPorId(sessaoEstudoDTORequest.getIdMateria());
+        Usuario usuario = usuarioRepository.obterUsuarioPorId(sessaoEstudoDTORequest.getIdUsuario());
+
+        sessaoEstudo.setUsuario(usuario);
+        sessaoEstudo.setMateria(materia);
+//        sessaoEstudo.setMateria(materiaRepository.obterMateriaPorId(sessaoEstudoDTORequest.getIdMateria()));
+//        sessaoEstudo.setUsuario(usuarioRepository.obterUsuarioPorId(sessaoEstudoDTORequest.getIdUsuario()));
         SessaoEstudo sessaoEstudoSave = this.sessaoEstudoRepository.save(sessaoEstudo);
         SessaoEstudoDTOResponse sessaoEstudoDTOResponse = modelMapper.map(sessaoEstudoSave, SessaoEstudoDTOResponse.class);
         return sessaoEstudoDTOResponse;
