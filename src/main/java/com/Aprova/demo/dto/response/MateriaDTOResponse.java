@@ -3,11 +3,10 @@ package com.Aprova.demo.dto.response;
 public class MateriaDTOResponse {
     private Integer id;
     private String nome;
-    private String prioridade;
+    private Integer prioridade;
     private String cor;
     private int status;
 
-    // --- Getters e Setters ---
 
     public Integer getId() {
         return id;
@@ -25,11 +24,11 @@ public class MateriaDTOResponse {
         this.nome = nome;
     }
 
-    public String getPrioridade() {
+    public Integer getPrioridade() {
         return prioridade;
     }
 
-    public void setPrioridade(String prioridade) {
+    public void setPrioridade(Integer prioridade) {
         this.prioridade = prioridade;
     }
 

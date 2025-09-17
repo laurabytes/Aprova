@@ -14,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SessaoEstudoService {
@@ -32,11 +33,14 @@ public class SessaoEstudoService {
         this.sessaoEstudoRepository = sessaoEstudoRepository;
         this.usuarioRepository = usuarioRepository;
         this.materiaRepository = materiaRepository;
-        this.modelMapper= modelMapper;
+        this.modelMapper = modelMapper;
     }
 
-    public List<SessaoEstudo> listarSessaoEstudo(){
-        return this.sessaoEstudoRepository.listarSessaoEstudo();
+    public List<SessaoEstudoDTOResponse> listarSessaoEstudo() {
+        List <SessaoEstudo> sessaoEstudos = sessaoEstudoRepository.findAll();
+        List<SessaoEstudoDTOResponse> Response = sessaoEstudos.stream()
+                .map(sessaoEstudo -> modelMapper.map(sessaoEstudo, SessaoEstudoDTOResponse.class)).collect(Collectors.toList());
+        return Response;
     }
 
     public SessaoEstudo listarSessaoEstudoId(Integer sessaoEstudoId) {
@@ -45,57 +49,41 @@ public class SessaoEstudoService {
 
     public SessaoEstudoDTOResponse criarSessaoEstudo(SessaoEstudoDTORequest sessaoEstudoDTORequest) {
 
-        SessaoEstudo sessaoEstudo = modelMapper.map(sessaoEstudoDTORequest, SessaoEstudo.class);
-        Materia materia = materiaRepository.obterMateriaPorId(sessaoEstudoDTORequest.getIdMateria());
-        Usuario usuario = usuarioRepository.obterUsuarioPorId(sessaoEstudoDTORequest.getIdUsuario());
-
-        sessaoEstudo.setUsuario(usuario);
-        sessaoEstudo.setMateria(materia);
-//        sessaoEstudo.setMateria(materiaRepository.obterMateriaPorId(sessaoEstudoDTORequest.getIdMateria()));
-//        sessaoEstudo.setUsuario(usuarioRepository.obterUsuarioPorId(sessaoEstudoDTORequest.getIdUsuario()));
+        SessaoEstudo sessaoEstudo = new SessaoEstudo();
+        sessaoEstudo.setInicio(sessaoEstudoDTORequest.getInicio());
+        sessaoEstudo.setFim(sessaoEstudoDTORequest.getFim());
+        sessaoEstudo.setStatus(sessaoEstudoDTORequest.getStatus());
+        sessaoEstudo.setMateria(materiaRepository.obterMateriaPorId(sessaoEstudoDTORequest.getIdMateria()));
+        sessaoEstudo.setUsuario(usuarioRepository.obterUsuarioPorId(sessaoEstudoDTORequest.getIdUsuario()));
         SessaoEstudo sessaoEstudoSave = this.sessaoEstudoRepository.save(sessaoEstudo);
-        SessaoEstudoDTOResponse sessaoEstudoDTOResponse = modelMapper.map(sessaoEstudoSave, SessaoEstudoDTOResponse.class);
-        return sessaoEstudoDTOResponse;
+        return modelMapper.map(sessaoEstudoSave, SessaoEstudoDTOResponse.class);
     }
 
-    public SessaoEstudoDTOResponse atualizarSessaoEstudo(Integer sessaoEstudoId, SessaoEstudoDTORequest sessaoEstudoDTORequest) {
-        //antes de atualizar busca se existe o registro a ser atualizar
+
+    public SessaoEstudoDTOResponse atualizarSessaoEstudo(Integer sessaoEstudoId, SessaoEstudoDTORequest request) {
+
         SessaoEstudo sessaoEstudo = this.listarSessaoEstudoId(sessaoEstudoId);
-
-        //se encontra o registro a ser atualizado
-        if (sessaoEstudo != null){
-            //copia os dados a serem atualizados do DTO de entrada para um objeto do tipo participante
-            //que é compatível com o repository para atualizar
-            modelMapper.map(sessaoEstudoDTORequest,sessaoEstudo);
-
-            //com o objeto no formato correto tipo "participante" o comando "save" salva
-            // no banco de dados o objeto atualizado
-            SessaoEstudo tempResponse = sessaoEstudoRepository.save(sessaoEstudo);
-
-            return modelMapper.map(tempResponse, SessaoEstudoDTOResponse.class);
-        }else {
-            return null;
+        if (sessaoEstudo == null){
+            throw new IllegalArgumentException("Sessão estudo não existe");
         }
+        sessaoEstudo.setInicio(request.getInicio());
+        sessaoEstudo.setFim(request.getFim());
+        sessaoEstudo.setStatus(request.getStatus());
+        sessaoEstudo.setMateria(materiaRepository.obterMateriaPorId(request.getIdMateria()));
+        sessaoEstudo.setUsuario(usuarioRepository.obterUsuarioPorId(request.getIdUsuario()));
+        SessaoEstudo sessaoSalva = this.sessaoEstudoRepository.save(sessaoEstudo);
+        return  modelMapper.map(sessaoSalva,SessaoEstudoDTOResponse.class);
 
     }
 
     public SessaoEstudoDTOUpdateResponse atualizarStatusSessaoEstudo(Integer sessaoEstudoId, SessaoEstudoDTOUpdateRequest sessaoEstudoDTOUpdateRequest) {
-        //antes de atualizar busca se existe o registro a ser atualizar
         SessaoEstudo sessaoEstudo = this.listarSessaoEstudoId(sessaoEstudoId);
-
-        //se encontra o registro a ser atualizado
-        if (sessaoEstudo != null) {
-            //atualizamos unicamente o campo de status
-            sessaoEstudo.setStatus(sessaoEstudoDTOUpdateRequest.getStatus());
-
-            //com o objeto no formato correto tipo "participante" o comando "save" salva
-            // no banco de dados o objeto atualizado
-            SessaoEstudo tempResponse = sessaoEstudoRepository.save(sessaoEstudo);
-            return modelMapper.map(tempResponse, SessaoEstudoDTOUpdateResponse.class);
+        if (sessaoEstudo == null){
+            throw new IllegalArgumentException("Sessão estudo não existe");
         }
-        else{
-            return null;
-        }
+        sessaoEstudo.setStatus(sessaoEstudoDTOUpdateRequest.getStatus());
+        SessaoEstudo sessaoSalva = this.sessaoEstudoRepository.save(sessaoEstudo);
+        return  modelMapper.map(sessaoSalva,SessaoEstudoDTOUpdateResponse.class);
     }
 
     public void apagarSessaoEstudo(Integer sessaoEstudoId){

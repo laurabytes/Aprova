@@ -15,7 +15,7 @@ public class Materia {
     private String nome;
 
     @Column(name = "materia_prioridade", length = 45)
-    private String prioridade;
+    private Integer prioridade;
 
     @Column(name = "materia_cor", length = 45)
     private String cor;
@@ -43,11 +43,11 @@ public class Materia {
         this.nome = nome;
     }
 
-    public String getPrioridade() {
+    public Integer getPrioridade() {
         return prioridade;
     }
 
-    public void setPrioridade(String prioridade) {
+    public void setPrioridade(Integer prioridade) {
         this.prioridade = prioridade;
     }
 

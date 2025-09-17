@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MateriaService {
@@ -26,12 +27,16 @@ public class MateriaService {
         this.materiaRepository = materiaRepository;
     }
 
-    public List<Materia> listarMaterias(){
-        return this.materiaRepository.listarMaterias();
+    public List<MateriaDTOResponse> listarMaterias(){
+        List<Materia> materias = materiaRepository.findAll();
+        List<MateriaDTOResponse> responses = materias.stream()
+                .map(materia -> modelMapper.map(materia, MateriaDTOResponse.class))
+                .collect(Collectors.toList());
+        return responses;
     }
 
-    public Materia listarMateriaId(Integer materiaId) {
-        return this.materiaRepository.obterMateriaPorId(materiaId);
+    public MateriaDTOResponse listarMateriaId(Integer materiaId) {
+        return modelMapper.map(materiaRepository.obterMateriaPorId(materiaId), MateriaDTOResponse.class);
     }
 
     public MateriaDTOResponse criarMateria(MateriaDTORequest materiaDTOrequest) {
@@ -44,42 +49,15 @@ public class MateriaService {
 
     public MateriaDTOResponse atualizarMateria(Integer materiaId, MateriaDTORequest materiaDTORequest) {
         //antes de atualizar busca se existe o registro a ser atualizar
-        Materia materia = this.listarMateriaId(materiaId);
-
-        //se encontra o registro a ser atualizado
-        if (materia != null){
-            //copia os dados a serem atualizados do DTO de entrada para um objeto do tipo participante
-            //que é compatível com o repository para atualizar
-            modelMapper.map(materiaDTORequest,materia);
-
-            //com o objeto no formato correto tipo "participante" o comando "save" salva
-            // no banco de dados o objeto atualizado
-            Materia tempResponse = materiaRepository.save(materia);
-
-            return modelMapper.map(tempResponse, MateriaDTOResponse.class);
-        }else {
-            return null;
+        Materia materia = this.materiaRepository.obterMateriaPorId(materiaId);
+        if (materia == null){
+            throw new IllegalArgumentException("Materia não existe");
         }
+        modelMapper.map(materiaDTORequest,materia);
+        Materia materiaAtualizada = this.materiaRepository.save(materia);
+        return modelMapper.map(materiaAtualizada, MateriaDTOResponse.class);
 
-    }
 
-    public MateriaDTOUpdateResponse atualizarStatusMateria(Integer materiaId, MateriaDTOUpdateRequest materiaDTOUpdateRequest) {
-        //antes de atualizar busca se existe o registro a ser atualizar
-        Materia materia = this.listarMateriaId(materiaId);
-
-        //se encontra o registro a ser atualizado
-        if (materia != null) {
-            //atualizamos unicamente o campo de status
-            materia.setStatus(materiaDTOUpdateRequest.getStatus());
-
-            //com o objeto no formato correto tipo "participante" o comando "save" salva
-            // no banco de dados o objeto atualizado
-            Materia tempResponse = materiaRepository.save(materia);
-            return modelMapper.map(tempResponse, MateriaDTOUpdateResponse.class);
-        }
-        else{
-            return null;
-        }
     }
 
     public void apagarMateria(Integer materiaId){

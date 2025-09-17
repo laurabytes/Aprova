@@ -92,4 +92,6 @@ public class SessaoEstudo {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
+
+
 }

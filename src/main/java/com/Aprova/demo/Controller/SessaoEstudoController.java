@@ -24,7 +24,7 @@ public class SessaoEstudoController {
 
 
     @GetMapping("/listar")
-    public ResponseEntity<List<SessaoEstudo>> listarSessaoEstudo(){
+    public ResponseEntity<List<SessaoEstudoDTOResponse>> listarSessaoEstudo(){
 
         return ResponseEntity.ok(sessaoEstudoService.listarSessaoEstudo());
     }

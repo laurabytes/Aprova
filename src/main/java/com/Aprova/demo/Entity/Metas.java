@@ -2,6 +2,8 @@ package com.Aprova.demo.Entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "metas")
 public class Metas {
@@ -15,7 +17,7 @@ public class Metas {
     private String nome;
 
     @Column(name = "metas_data", length = 45)
-    private String data;
+    private LocalDate data;
 
     @Column(name = "metas_status")
     private int status;
@@ -42,11 +44,12 @@ public class Metas {
         this.nome = nome;
     }
 
-    public String getData() {
+
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 

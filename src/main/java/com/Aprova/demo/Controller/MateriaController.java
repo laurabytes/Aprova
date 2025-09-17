@@ -20,14 +20,14 @@ public class MateriaController {
 
 
     @GetMapping("/listar")
-    public ResponseEntity<List<Materia>> listarMaterias(){
+    public ResponseEntity<List<MateriaDTOResponse>> listarMaterias(){
 
         return ResponseEntity.ok(materiaService.listarMaterias());
     }
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<Materia> listarMateriaId(@PathVariable Integer id) {
+    public ResponseEntity<MateriaDTOResponse> listarMateriaId(@PathVariable Integer id) {
         return ResponseEntity.ok(materiaService.listarMateriaId(id));
     }
 
