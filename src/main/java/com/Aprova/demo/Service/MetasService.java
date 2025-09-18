@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MetasService {
@@ -27,8 +28,12 @@ public class MetasService {
         this.modelMapper = modelMapper;
     }
 
-    public List<Metas> listarMetas(){
-        return this.metasRepository.listarMetas();
+    public List<MetasDTOResponse> listarMetas(){
+       List<Metas> listarMetas = metasRepository.findAll();
+       List<MetasDTOResponse> responses = listarMetas.stream()
+               .map(metas -> modelMapper.map(metas,MetasDTOResponse.class))
+               .collect(Collectors.toList());
+       return responses;
     }
 
     public Metas listarMetasId(Integer metasId) {
@@ -55,37 +60,30 @@ public class MetasService {
     }
 
     public MetasDTOResponse atualizarMetas(Integer metasId, MetasDTORequest metasDTORequest) {
-        //antes de atualizar busca se existe o registro a ser atualizar
         Metas metas = this.listarMetasId(metasId);
 
-        //se encontra o registro a ser atualizado
         if (metas != null){
-            //copia os dados a serem atualizados do DTO de entrada para um objeto do tipo participante
-            //que é compatível com o repository para atualizar
-            modelMapper.map(metasDTORequest, metas);
+            metas.setNome(metasDTORequest.getNome());
+            metas.setData(metasDTORequest.getData());
+            metas.setStatus(metasDTORequest.getStatus());
 
-            //com o objeto no formato correto tipo "participante" o comando "save" salva
-            // no banco de dados o objeto atualizado
             Metas tempResponse = metasRepository.save(metas);
 
             return modelMapper.map(tempResponse, MetasDTOResponse.class);
-        }else {
+        } else {
             return null;
         }
-
     }
 
     public MetasDTOUpdateResponse atualizarStatusMetas(Integer metasId, MetasDTOUpdateRequest metasDTOUpdateRequest) {
-        //antes de atualizar busca se existe o registro a ser atualizar
+
         Metas metas = this.listarMetasId(metasId);
 
-        //se encontra o registro a ser atualizado
         if (metas != null) {
-            //atualizamos unicamente o campo de status
+
             metas.setStatus(metasDTOUpdateRequest.getStatus());
 
-            //com o objeto no formato correto tipo "participante" o comando "save" salva
-            // no banco de dados o objeto atualizado
+
             Metas tempResponse = metasRepository.save(metas);
             return modelMapper.map(tempResponse, MetasDTOUpdateResponse.class);
         }

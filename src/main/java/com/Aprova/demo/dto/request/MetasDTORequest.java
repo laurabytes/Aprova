@@ -8,6 +8,14 @@ public class MetasDTORequest {
     private Integer usuarioId;
     private int status;
 
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public LocalDate getData() {
         return data;
     }
@@ -30,13 +38,5 @@ public class MetasDTORequest {
 
     public void setStatus(int status) {
         this.status = status;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 }

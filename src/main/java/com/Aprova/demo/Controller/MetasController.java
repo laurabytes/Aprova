@@ -25,7 +25,7 @@ public class MetasController {
 
 
     @GetMapping("/listar")
-    public ResponseEntity<List<Metas>> listarMetas(){
+    public ResponseEntity<List<MetasDTOResponse>> listarMetas(){
 
         return ResponseEntity.ok(metasService.listarMetas());
     }

@@ -1,11 +1,17 @@
 package com.Aprova.demo.Service;
 
 import com.Aprova.demo.Entity.Materia;
+import com.Aprova.demo.Entity.Metas;
+import com.Aprova.demo.Entity.SessaoEstudo;
 import com.Aprova.demo.Repository.MateriaRepository;
+import com.Aprova.demo.Repository.UsuarioRepository;
 import com.Aprova.demo.dto.request.MateriaDTORequest;
 import com.Aprova.demo.dto.request.MateriaDTOUpdateRequest;
 import com.Aprova.demo.dto.response.MateriaDTOResponse;
 import com.Aprova.demo.dto.response.MateriaDTOUpdateResponse;
+import com.Aprova.demo.dto.response.MetasDTOResponse;
+import com.Aprova.demo.dto.response.SessaoEstudoDTOResponse;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +26,14 @@ import java.util.stream.Collectors;
 public class MateriaService {
 
     private final MateriaRepository materiaRepository;
+
+    private final UsuarioRepository usuarioRepository;
     @Autowired
     private ModelMapper modelMapper;
 
-    public MateriaService(MateriaRepository materiaRepository) {
+    public MateriaService(MateriaRepository materiaRepository, UsuarioRepository usuarioRepository) {
         this.materiaRepository = materiaRepository;
+        this.usuarioRepository = usuarioRepository;
     }
 
     public List<MateriaDTOResponse> listarMaterias(){
@@ -41,21 +50,31 @@ public class MateriaService {
 
     public MateriaDTOResponse criarMateria(MateriaDTORequest materiaDTOrequest) {
 
-        Materia materia = modelMapper.map(materiaDTOrequest, Materia.class);
+        Materia materia = new Materia();
+        materia.setStatus(materiaDTOrequest.getStatus());
+        materia.setCor(materiaDTOrequest.getCor());
+        materia.setNome(materiaDTOrequest.getNome());
+        materia.setPrioridade(materiaDTOrequest.getPrioridade());
+        materia.setUsuario(usuarioRepository.obterUsuarioPorId(materiaDTOrequest.getUsuarioId()));
         Materia materiaSave = this.materiaRepository.save(materia);
         MateriaDTOResponse materiaDTOResponse = modelMapper.map(materiaSave, MateriaDTOResponse.class);
         return materiaDTOResponse;
     }
 
-    public MateriaDTOResponse atualizarMateria(Integer materiaId, MateriaDTORequest materiaDTORequest) {
-        //antes de atualizar busca se existe o registro a ser atualizar
-        Materia materia = this.materiaRepository.obterMateriaPorId(materiaId);
-        if (materia == null){
-            throw new IllegalArgumentException("Materia não existe");
+    public MateriaDTOResponse atualizarMateria(@Valid Integer materiaId, MateriaDTORequest materiaDTORequest) {
+        MateriaDTOResponse materia = this.listarMateriaId(materiaId);
+        if (materia != null) {
+            materia.setNome(materiaDTORequest.getNome());
+            materia.setCor(materiaDTORequest.getCor());
+            materia.setPrioridade(materiaDTORequest.getPrioridade());
+            materia.setStatus(materiaDTORequest.getStatus());
+            materia.setUsuario(usuarioRepository.obterUsuarioPorId(materiaDTORequest.getUsuarioId()));
+            Materia materiaTemp = materiaRepository.save(materia);
+
+            return modelMapper.map(materiaTemp, MateriaDTOResponse.class);
+        } else {
+            return null;
         }
-        modelMapper.map(materiaDTORequest,materia);
-        Materia materiaAtualizada = this.materiaRepository.save(materia);
-        return modelMapper.map(materiaAtualizada, MateriaDTOResponse.class);
 
 
     }

@@ -1,12 +1,22 @@
 package com.Aprova.demo.dto.response;
 
+import com.Aprova.demo.Entity.Usuario;
+
 public class MateriaDTOResponse {
     private Integer id;
     private String nome;
     private Integer prioridade;
     private String cor;
     private int status;
+    private Integer usuarioId;
 
+    public Integer getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(Integer usuarioId) {
+        this.usuarioId = usuarioId;
+    }
 
     public Integer getId() {
         return id;
@@ -47,4 +57,6 @@ public class MateriaDTOResponse {
     public void setStatus(int status) {
         this.status = status;
     }
+
+
 }

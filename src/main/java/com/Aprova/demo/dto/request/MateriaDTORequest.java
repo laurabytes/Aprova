@@ -3,6 +3,8 @@ package com.Aprova.demo.dto.request;
 public class MateriaDTORequest {
     private String nome;
     private Integer prioridade;
+
+    private String cor;
     private Integer usuarioId;
     private int status;
 
@@ -37,6 +39,14 @@ public class MateriaDTORequest {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getCor() {
+        return cor;
+    }
+
+    public void setCor(String cor) {
+        this.cor = cor;
     }
 }
 
