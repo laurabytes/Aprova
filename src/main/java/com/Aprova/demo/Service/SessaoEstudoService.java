@@ -36,12 +36,14 @@ public class SessaoEstudoService {
         this.modelMapper = modelMapper;
     }
 
+
     public List<SessaoEstudoDTOResponse> listarSessaoEstudo() {
-        List <SessaoEstudo> sessaoEstudos = sessaoEstudoRepository.findAll();
+        List <SessaoEstudo> sessaoEstudos = sessaoEstudoRepository.listarSessaoEstudo();
         List<SessaoEstudoDTOResponse> Response = sessaoEstudos.stream()
                 .map(sessaoEstudo -> modelMapper.map(sessaoEstudo, SessaoEstudoDTOResponse.class)).collect(Collectors.toList());
         return Response;
     }
+
 
     public SessaoEstudo listarSessaoEstudoId(Integer sessaoEstudoId) {
         return this.sessaoEstudoRepository.obterSessaoEstudoPorId(sessaoEstudoId);

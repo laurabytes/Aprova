@@ -20,8 +20,9 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+
     @GetMapping("/listar")
-    public ResponseEntity<List<Usuario>> listarUsuario(){
+    public ResponseEntity<List<UsuarioDTOResponse>> listarUsuario(){
         return ResponseEntity.ok(usuarioService.listarUsuario());
     }
 
@@ -42,7 +43,6 @@ public class UsuarioController {
         return ResponseEntity.ok(response);
     }
 
-    // ENDPOINT DE ATUALIZAÇÃO DE STATUS ADICIONADO
     @PatchMapping("/atualizar-status/{id}")
     public ResponseEntity<UsuarioDTOUpdateResponse> atualizarStatusUsuario(@PathVariable Integer id, @RequestBody UsuarioDTOUpdateRequest usuarioDTOUpdateRequest) {
         UsuarioDTOUpdateResponse response = usuarioService.atualizarStatusUsuario(id, usuarioDTOUpdateRequest);

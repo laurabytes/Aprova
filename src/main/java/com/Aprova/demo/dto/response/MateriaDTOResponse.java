@@ -59,4 +59,6 @@ public class MateriaDTOResponse {
     }
 
 
+    public void setUsuario(Usuario usuario) {
+    }
 }

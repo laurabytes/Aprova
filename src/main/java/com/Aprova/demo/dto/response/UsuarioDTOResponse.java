@@ -2,10 +2,10 @@ package com.Aprova.demo.dto.response;
 
 public class UsuarioDTOResponse {
 
+    private int id;
     private String nome;
     private String email;
     private int status;
-
 
 
     public String getNome() {
@@ -30,5 +30,13 @@ public class UsuarioDTOResponse {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

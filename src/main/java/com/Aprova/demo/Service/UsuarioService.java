@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -22,13 +23,15 @@ public class UsuarioService {
     private ModelMapper modelMapper;
 
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
-        this.usuarioRepository = usuarioRepository;
+
+    public List<UsuarioDTOResponse> listarUsuario(){
+        List<Usuario> usuarios = this.usuarioRepository.listarUsuarios();
+
+        return usuarios.stream()
+                .map(usuario -> modelMapper.map(usuario, UsuarioDTOResponse.class))
+                .collect(Collectors.toList());
     }
 
-    public List<Usuario> listarUsuario(){
-        return this.usuarioRepository.listarUsuarios();
-    }
 
     public Usuario listarUsuarioId(Integer usuarioId) {
         return this.usuarioRepository.obterUsuarioPorId(usuarioId);
@@ -50,7 +53,6 @@ public class UsuarioService {
             return null;
         }
     }
-
 
     public UsuarioDTOUpdateResponse atualizarStatusUsuario(Integer usuarioId, UsuarioDTOUpdateRequest usuarioDTOUpdateRequest) {
         Usuario usuario = this.listarUsuarioId(usuarioId);
