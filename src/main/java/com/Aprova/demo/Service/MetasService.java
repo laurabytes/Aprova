@@ -29,15 +29,20 @@ public class MetasService {
     }
 
     public List<MetasDTOResponse> listarMetas(){
-       List<Metas> listarMetas = metasRepository.findAll();
-       List<MetasDTOResponse> responses = listarMetas.stream()
-               .map(metas -> modelMapper.map(metas,MetasDTOResponse.class))
-               .collect(Collectors.toList());
-       return responses;
+
+        List<Metas> listarMetas = metasRepository.listarMetas();
+        List<MetasDTOResponse> responses = listarMetas.stream()
+                .map(metas -> modelMapper.map(metas,MetasDTOResponse.class))
+                .collect(Collectors.toList());
+        return responses;
     }
 
     public Metas listarMetasId(Integer metasId) {
-        return this.metasRepository.obterMetasPorId(metasId);
+        Metas meta = this.metasRepository.obterMetasPorId(metasId);
+        if (meta == null || meta.getStatus() < 0) {
+            throw new IllegalArgumentException("Meta com ID " + metasId + " não encontrada.");
+        }
+        return meta;
     }
 
     public MetasDTOResponse criarMetas(MetasDTORequest metasDTOrequest) {
@@ -62,37 +67,25 @@ public class MetasService {
     public MetasDTOResponse atualizarMetas(Integer metasId, MetasDTORequest metasDTORequest) {
         Metas metas = this.listarMetasId(metasId);
 
-        if (metas != null){
-            metas.setNome(metasDTORequest.getNome());
-            metas.setData(metasDTORequest.getData());
-            metas.setStatus(metasDTORequest.getStatus());
 
-            Metas tempResponse = metasRepository.save(metas);
+        metas.setNome(metasDTORequest.getNome());
+        metas.setData(metasDTORequest.getData());
+        metas.setStatus(metasDTORequest.getStatus());
 
-            return modelMapper.map(tempResponse, MetasDTOResponse.class);
-        } else {
-            return null;
-        }
+        Metas tempResponse = metasRepository.save(metas);
+
+        return modelMapper.map(tempResponse, MetasDTOResponse.class);
     }
 
     public MetasDTOUpdateResponse atualizarStatusMetas(Integer metasId, MetasDTOUpdateRequest metasDTOUpdateRequest) {
-
         Metas metas = this.listarMetasId(metasId);
-
-        if (metas != null) {
-
-            metas.setStatus(metasDTOUpdateRequest.getStatus());
-
-
-            Metas tempResponse = metasRepository.save(metas);
-            return modelMapper.map(tempResponse, MetasDTOUpdateResponse.class);
-        }
-        else{
-            return null;
-        }
+        metas.setStatus(metasDTOUpdateRequest.getStatus());
+        Metas tempResponse = metasRepository.save(metas);
+        return modelMapper.map(tempResponse, MetasDTOUpdateResponse.class);
     }
 
     public void apagarMetas(Integer metasId){
+        Metas meta = this.listarMetasId(metasId);
         metasRepository.apagarMetas(metasId);
     }
 }
