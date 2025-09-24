@@ -2,8 +2,11 @@ package com.Aprova.demo.Controller;
 
 import com.Aprova.demo.Entity.Usuario;
 import com.Aprova.demo.Service.UsuarioService;
+import com.Aprova.demo.dto.request.CreateUserDto;
+import com.Aprova.demo.dto.request.LoginUserDto;
 import com.Aprova.demo.dto.request.UsuarioDTORequest;
 import com.Aprova.demo.dto.request.UsuarioDTOUpdateRequest;
+import com.Aprova.demo.dto.response.RecoveryJwtTokenDto;
 import com.Aprova.demo.dto.response.UsuarioDTOResponse;
 import com.Aprova.demo.dto.response.UsuarioDTOUpdateResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,17 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @PostMapping("/login")
+    public ResponseEntity<RecoveryJwtTokenDto> authenticateUser(@RequestBody LoginUserDto loginUserDto) {
+        RecoveryJwtTokenDto token = usuarioService.authenticateUser(loginUserDto);
+        return new ResponseEntity<>(token, HttpStatus.OK);
+    }
+
+    @PostMapping("/criar")
+    public ResponseEntity<Void> createUser(@RequestBody CreateUserDto createUserDto) {
+        usuarioService.createUser(createUserDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
     @GetMapping("/listar")
     public ResponseEntity<List<UsuarioDTOResponse>> listarUsuario(){
@@ -29,12 +43,6 @@ public class UsuarioController {
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> listarUsuarioId(@PathVariable Integer id) {
         return ResponseEntity.ok(usuarioService.listarUsuarioId(id));
-    }
-
-    @PostMapping("/criar")
-    public ResponseEntity<UsuarioDTOResponse> criarUsuario(@RequestBody UsuarioDTORequest usuarioDTORequest) {
-        UsuarioDTOResponse response = usuarioService.criarUsuario(usuarioDTORequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/atualizar/{id}")

@@ -15,10 +15,10 @@ public class Usuario {
     @Column(name = "usuario_nome", length = 30)
     private String nome;
 
-    @Column(name = "usuario_email", length = 45)
+    @Column(name = "usuario_email", length = 45, unique = true)
     private String email;
 
-    @Column(name = "usuario_senha", length = 45)
+    @Column(name = "usuario_senha")
     private String senha;
 
     @Column(name = "usuario_status")
@@ -32,6 +32,12 @@ public class Usuario {
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SessaoEstudo> sessoesEstudo;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(name="users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name="role_id"))
+    private List<Role> roles;
 
 
     public Integer getId() {
@@ -96,5 +102,13 @@ public class Usuario {
 
     public void setSessoesEstudo(List<SessaoEstudo> sessoesEstudo) {
         this.sessoesEstudo = sessoesEstudo;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }
