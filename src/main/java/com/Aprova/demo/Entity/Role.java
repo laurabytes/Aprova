@@ -3,7 +3,7 @@ package com.Aprova.demo.Entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="roles")
+@Table(name="role")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

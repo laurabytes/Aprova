@@ -1,6 +1,8 @@
 package com.Aprova.demo.Entity;
 
+
 import jakarta.persistence.*;
+
 import java.util.List;
 
 @Entity
@@ -34,8 +36,8 @@ public class Usuario {
     private List<SessaoEstudo> sessoesEstudo;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinTable(name="users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
+    @JoinTable(name="usuario_role",
+            joinColumns = @JoinColumn(name = "usuario_id"),
             inverseJoinColumns = @JoinColumn(name="role_id"))
     private List<Role> roles;
 

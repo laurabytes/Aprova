@@ -33,8 +33,8 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
             String token = recoveryToken(request);
             if (token != null) {
                 String subject = jwtTokenService.getSubjectFromToken(token);
-                Usuario user = usuarioRepository.findByEmail(subject).get();
-                UserDetailsImpl userDetails = new UserDetailsImpl(user);
+                Usuario usuario = usuarioRepository.findByEmail(subject).get();
+                UserDetailsImpl userDetails = new UserDetailsImpl(usuario);
 
                 Authentication authentication =
                         new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
@@ -55,8 +55,12 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
         return null;
     }
 
+    // Verifica se o endpoint requer autenticação antes de processar a requisição
     private boolean checkIfEndpointIsNotPublic(HttpServletRequest request) {
+        //ajustado para funcionamento do swagger
         String requestURI = request.getRequestURI();
-        return !Arrays.asList(SecurityConfiguration.ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).contains(requestURI);
+        return Arrays.stream(SecurityConfiguration.ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).noneMatch(publicEndpoint ->
+                requestURI.startsWith(publicEndpoint.replace("/**", "")) // suporta wildcard
+        );
     }
 }
