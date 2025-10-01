@@ -21,13 +21,14 @@ public class SecurityConfiguration {
     @Autowired
     private UserAuthenticationFilter userAuthenticationFilter;
 
+    // A lista de endpoints que não requerem autenticação permanece a mesma
     public static final String [] ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED = {
-            "/api/usuarios/login",
-            "/api/usuarios/criar",
 
             "/swagger-ui.html",
             "/swagger-ui/**",
-            "/v3/api-docs/**"
+            "/v3/api-docs/**",
+            "/api/usuarios/criar",
+            "/api/usuarios/login"
     };
 
     public static final String [] ENDPOINTS_WITH_AUTHENTICATION_REQUIRED = {
@@ -40,7 +41,23 @@ public class SecurityConfiguration {
     };
     // Endpoints que só podem ser acessador por usuários com permissão de cliente
     public static final String [] ENDPOINTS_CUSTOMER = {
-            "/metas"
+            "/api/sessao-estudo/criar",
+            "/api/sessao-estudo/listar",
+            "/api/sessao-estudo/apagar",
+            "/api/sessao-estudo/atualizar",
+            "/api/materia/atualizar/{id}",
+            "/api/materia/criar",
+            "/api/materia/listar",
+            "/api/materia/apagar",
+            "/api/metas/atualizar/{id}",
+            "/api/metas/apagar/{id}",
+            "/api/metas/criar",
+            "/api/usuarios/atualizar/{id}",
+            "/api/usuarios/atualizar/{id}",
+            "/api/usuarios/apagar/{id}",
+
+
+
     };
 
     public SecurityConfiguration(UserAuthenticationFilter userAuthenticationFilter) {
@@ -53,11 +70,16 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        // Libera explicitamente os endpoints de login e criação de usuário
+                        .requestMatchers(HttpMethod.POST, "/api/usuarios/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/usuarios/criar").permitAll()
+                        // Libera os endpoints do Swagger
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() //adicionado para funcionamento do swagger
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(ENDPOINTS_ADMIN).hasRole("ADMINISTRATOR")
                         .requestMatchers(ENDPOINTS_CUSTOMER).hasRole("CUSTOMER")
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_REQUIRED).authenticated()
+                        // Nega todas as outras requisições
                         .anyRequest().denyAll()
                 )
                 .addFilterBefore(userAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

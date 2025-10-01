@@ -7,9 +7,11 @@ import jakarta.persistence.*;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "role_id") // Adicione esta linha
     private Long id;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "role_name")
     private RoleName name;
 
     public Long getId() {
