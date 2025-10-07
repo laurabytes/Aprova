@@ -37,7 +37,12 @@ public class SecurityConfiguration {
             "/api/sessoes-estudo/**"
     };
     public static final String [] ENDPOINTS_ADMIN = {
-            "/materia"
+            "/api/usuarios/atualizar/{id}",
+            "/api/usuarios/apagar/{id}",
+            "/api/usuarios/{id}",
+            "/api/usuarios/atualizar-status/{id}",
+
+
     };
     // Endpoints que só podem ser acessador por usuários com permissão de cliente
     public static final String [] ENDPOINTS_CUSTOMER = {
@@ -52,7 +57,6 @@ public class SecurityConfiguration {
             "/api/metas/atualizar/{id}",
             "/api/metas/apagar/{id}",
             "/api/metas/criar",
-            "/api/usuarios/atualizar/{id}",
             "/api/usuarios/atualizar/{id}",
             "/api/usuarios/apagar/{id}",
 

@@ -56,6 +56,7 @@ public class UsuarioService {
 
         Usuario newUser = new Usuario();
         newUser.setEmail(createUserDto.email());
+        newUser.setNome(createUserDto.nome());
         newUser.setSenha(securityConfiguration.passwordEncoder().encode(createUserDto.password()));
         newUser.setRoles(List.of(role));
 
