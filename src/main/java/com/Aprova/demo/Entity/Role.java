@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "role_id") // Adicione esta linha
+    @Column(name = "role_id")
     private Long id;
 
     @Enumerated(EnumType.STRING)

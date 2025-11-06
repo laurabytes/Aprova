@@ -102,7 +102,6 @@ public class UsuarioService {
             return null;
         }
     }
-
     public void apagarUsuario(Integer usuarioId){
         usuarioRepository.apagarUsuario(usuarioId);
     }

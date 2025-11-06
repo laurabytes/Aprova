@@ -21,7 +21,6 @@ public class SecurityConfiguration {
     @Autowired
     private UserAuthenticationFilter userAuthenticationFilter;
 
-    // A lista de endpoints que não requerem autenticação permanece a mesma
     public static final String [] ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED = {
 
             "/swagger-ui.html",
@@ -34,7 +33,8 @@ public class SecurityConfiguration {
     public static final String [] ENDPOINTS_WITH_AUTHENTICATION_REQUIRED = {
             "/api/materias/**",
             "/api/metas/**",
-            "/api/sessoes-estudo/**"
+            "/api/sessoes-estudo/**",
+            "/api/flashcards/**"
     };
     public static final String [] ENDPOINTS_ADMIN = {
             "/api/usuarios/atualizar/{id}",
@@ -44,7 +44,6 @@ public class SecurityConfiguration {
 
 
     };
-    // Endpoints que só podem ser acessador por usuários com permissão de cliente
     public static final String [] ENDPOINTS_CUSTOMER = {
             "/api/sessao-estudo/criar",
             "/api/sessao-estudo/listar",
@@ -74,16 +73,13 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // Libera explicitamente os endpoints de login e criação de usuário
                         .requestMatchers(HttpMethod.POST, "/api/usuarios/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/usuarios/criar").permitAll()
-                        // Libera os endpoints do Swagger
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(ENDPOINTS_ADMIN).hasRole("ADMINISTRATOR")
                         .requestMatchers(ENDPOINTS_CUSTOMER).hasRole("CUSTOMER")
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_REQUIRED).authenticated()
-                        // Nega todas as outras requisições
                         .anyRequest().denyAll()
                 )
                 .addFilterBefore(userAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
