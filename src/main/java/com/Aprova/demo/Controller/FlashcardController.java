@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/flashcards")
+@CrossOrigin("*")
 public class FlashcardController {
 
     @Autowired

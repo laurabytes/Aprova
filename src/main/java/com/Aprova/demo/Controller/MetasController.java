@@ -18,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/metas")
+@CrossOrigin("*")
 public class MetasController {
 
     @Autowired
