@@ -31,9 +31,6 @@ public class SecurityConfiguration {
     };
 
     public static final String [] ENDPOINTS_WITH_AUTHENTICATION_REQUIRED = {
-            "/api/materias/**",
-            "/api/metas/**",
-            "/api/sessoes-estudo/**",
             "/api/flashcards/**"
     };
     public static final String [] ENDPOINTS_ADMIN = {
@@ -49,10 +46,11 @@ public class SecurityConfiguration {
             "/api/sessao-estudo/listar",
             "/api/sessao-estudo/apagar",
             "/api/sessao-estudo/atualizar",
-            "/api/materia/atualizar/{id}",
-            "/api/materia/criar",
-            "/api/materia/listar",
-            "/api/materia/apagar",
+            "/api/materias/atualizar/{id}",
+            "/api/materias/criar",
+            "/api/materias/listar",
+            "/api/materias/{id}",
+            "/api/materias/apagar/{id}",
             "/api/metas/atualizar/{id}",
             "/api/metas/apagar/{id}",
             "/api/metas/criar",
@@ -77,8 +75,9 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/api/usuarios/criar").permitAll()
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers(ENDPOINTS_ADMIN).hasRole("ADMINISTRATOR")
-                        .requestMatchers(ENDPOINTS_CUSTOMER).hasRole("CUSTOMER")
+                        // CORREÇÃO ESSENCIAL: Usando hasAuthority() em vez de hasRole()
+                        .requestMatchers(ENDPOINTS_ADMIN).hasAuthority("ADMINISTRATOR")
+                        .requestMatchers(ENDPOINTS_CUSTOMER).hasAuthority("CUSTOMER")
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_REQUIRED).authenticated()
                         .anyRequest().denyAll()
                 )
