@@ -30,6 +30,11 @@ public class SecurityConfiguration {
             "/api/usuarios/login"
     };
 
+    // NOVO ENDPOINT DE SEGURANÇA LIBERADO AQUI
+    public static final String [] ENDPOINTS_DE_DEMONSTRACAO = {
+            "/api/seguranca/**"
+    };
+
     public static final String [] ENDPOINTS_WITH_AUTHENTICATION_REQUIRED = {
             "/api/flashcards/**"
     };
@@ -74,8 +79,9 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/api/usuarios/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/usuarios/criar").permitAll()
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).permitAll()
+                        //  endpoint do Bouncy Castle
+                        .requestMatchers(ENDPOINTS_DE_DEMONSTRACAO).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        // CORREÇÃO ESSENCIAL: Usando hasAuthority() em vez de hasRole()
                         .requestMatchers(ENDPOINTS_ADMINISTRADOR).hasAuthority("ADMINISTRADOR")
                         .requestMatchers(ENDPOINTS_USUARIO).hasAuthority("USUARIO")
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_REQUIRED).authenticated()
