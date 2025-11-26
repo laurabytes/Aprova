@@ -30,13 +30,6 @@ public class FlashcardDTORequest {
         this.ponto = ponto;
     }
 
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
 
     public Integer getMateriaId() {
         return materiaId;

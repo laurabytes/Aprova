@@ -80,7 +80,7 @@ public class FlashcardService {
         flashcard.setPergunta(flashcardDTORequest.getPergunta());
         flashcard.setResposta(flashcardDTORequest.getResposta());
         flashcard.setPonto(flashcardDTORequest.getPonto());
-        flashcard.setStatus(flashcardDTORequest.getStatus());
+        flashcard.setStatus(1);
         flashcard.setMateria(materia);
 
         Flashcard flashcardAtualizado = this.flashcardRepository.save(flashcard);

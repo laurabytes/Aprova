@@ -27,7 +27,9 @@ public class SecurityConfiguration {
             "/swagger-ui/**",
             "/v3/api-docs/**",
             "/api/usuarios/criar",
-            "/api/usuarios/login"
+            "/api/usuarios/login",
+            "/api/metas/criar",
+            "/api/metas/listar",
     };
 
     // NOVO ENDPOINT DE SEGURANÇA LIBERADO AQUI
@@ -49,10 +51,10 @@ public class SecurityConfiguration {
     };
     
     public static final String [] ENDPOINTS_USUARIO = {
-            "/api/sessao-estudo/criar",
-            "/api/sessao-estudo/listar",
-            "/api/sessao-estudo/apagar",
-            "/api/sessao-estudo/atualizar",
+            "/api/sessoes-estudo/criar",
+            "/api/sessoes-estudo/listar",
+            "/api/sessoes-estudo/apagar",
+            "/api/sessoes-estudo/atualizar",
             "/api/materias/atualizar/{id}",
             "/api/materias/criar",
             "/api/materias/listar",
@@ -60,9 +62,13 @@ public class SecurityConfiguration {
             "/api/materias/apagar/{id}",
             "/api/metas/atualizar/{id}",
             "/api/metas/apagar/{id}",
-            "/api/metas/criar",
+            "/api/metas/{id}",
             "/api/usuarios/atualizar/{id}",
-            "/api/usuarios/apagar/{id}"
+            "/api/usuarios/apagar/{id}",
+            "/api/flashcards/criar",
+            "/api/flashcards/atualizar/{id}",
+            "/api/flashcards/apagar/{id}",
+            "/api/flashcards/listar"
     };
     
     // NOVO: Endpoints que podem ser acedidos tanto por USUARIO quanto por ADMINISTRADOR
