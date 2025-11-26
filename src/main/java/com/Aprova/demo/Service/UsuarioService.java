@@ -2,6 +2,7 @@ package com.Aprova.demo.Service;
 
 import com.Aprova.demo.Entity.Role;
 import com.Aprova.demo.Entity.Usuario;
+import com.Aprova.demo.Repository.RoleRepository;
 import com.Aprova.demo.Repository.UsuarioRepository;
 import com.Aprova.demo.config.SecurityConfiguration;
 import com.Aprova.demo.dto.request.CreateUserDto;
@@ -18,6 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,6 +39,9 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     public RecoveryJwtTokenDto authenticateUser(LoginUserDto loginUserDto) {
@@ -51,14 +56,19 @@ public class UsuarioService {
     }
 
     public void createUser(CreateUserDto createUserDto) {
-        Role role = new Role();
-        role.setName(createUserDto.role());
-
         Usuario newUser = new Usuario();
         newUser.setEmail(createUserDto.email());
         newUser.setNome(createUserDto.nome());
         newUser.setSenha(securityConfiguration.passwordEncoder().encode(createUserDto.password()));
-        newUser.setRoles(List.of(role));
+
+        Role novoRole = roleRepository.findByName(createUserDto.role());
+        if (novoRole == null) {
+            throw new IllegalArgumentException("Role inexistente");
+        }
+        List<Role> listaRole = new ArrayList<>();
+        listaRole.add(novoRole);
+
+        newUser.setRoles(listaRole);
 
         usuarioRepository.save(newUser);
     }
