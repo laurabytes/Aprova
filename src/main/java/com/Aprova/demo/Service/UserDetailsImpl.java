@@ -28,7 +28,11 @@ public class UserDetailsImpl implements UserDetails {
         */
         return usuario.getRoles()
                 .stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName().name()))
+                .map(role -> {
+                    String roleName = role.getName().name();
+                    String nameWithoutPrefix = roleName.replace("ROLE_", "");
+                    return new SimpleGrantedAuthority(nameWithoutPrefix);
+                })
                 .collect(Collectors.toList());
     }
 

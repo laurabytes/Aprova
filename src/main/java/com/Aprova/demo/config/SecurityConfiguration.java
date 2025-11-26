@@ -38,8 +38,8 @@ public class SecurityConfiguration {
             "/api/usuarios/apagar/{id}",
             "/api/usuarios/{id}",
             "/api/usuarios/atualizar-status/{id}",
-
-
+            "/api/usuarios/listar",
+            "/api/materias/criar"
     };
     public static final String [] ENDPOINTS_USUARIO = {
             "/api/sessao-estudo/criar",

@@ -81,8 +81,8 @@ public class UsuarioService {
                 .collect(Collectors.toList());
     }
 
-    public Usuario listarUsuarioId(Integer usuarioId) {
-        return this.usuarioRepository.obterUsuarioPorId(usuarioId);
+    public UsuarioDTOResponse listarUsuarioId(Integer usuarioId) {
+        return modelMapper.map(usuarioRepository.obterUsuarioPorId(usuarioId), UsuarioDTOResponse.class);
     }
 
     public UsuarioDTOResponse criarUsuario(UsuarioDTORequest usuarioDTOrequest) {
@@ -92,7 +92,7 @@ public class UsuarioService {
     }
 
     public UsuarioDTOResponse atualizarUsuario(Integer usuarioId, UsuarioDTORequest usuarioDTORequest) {
-        Usuario usuario = this.listarUsuarioId(usuarioId);
+        Usuario usuario = usuarioRepository.obterUsuarioPorId(usuarioId);
         if (usuario != null){
             modelMapper.map(usuarioDTORequest,usuario);
             Usuario tempResponse = usuarioRepository.save(usuario);
@@ -103,7 +103,7 @@ public class UsuarioService {
     }
 
     public UsuarioDTOUpdateResponse atualizarStatusUsuario(Integer usuarioId, UsuarioDTOUpdateRequest usuarioDTOUpdateRequest) {
-        Usuario usuario = this.listarUsuarioId(usuarioId);
+        Usuario usuario = usuarioRepository.obterUsuarioPorId(usuarioId);
         if (usuario != null) {
             usuario.setStatus(usuarioDTOUpdateRequest.getStatus());
             Usuario tempResponse = usuarioRepository.save(usuario);

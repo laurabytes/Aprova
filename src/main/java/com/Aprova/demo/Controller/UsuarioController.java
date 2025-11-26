@@ -42,7 +42,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> listarUsuarioId(@PathVariable Integer id) {
+    public ResponseEntity<UsuarioDTOResponse> listarUsuarioId(@PathVariable Integer id) {
         return ResponseEntity.ok(usuarioService.listarUsuarioId(id));
     }
 
