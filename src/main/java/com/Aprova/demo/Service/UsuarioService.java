@@ -52,7 +52,12 @@ public class UsuarioService {
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        return new RecoveryJwtTokenDto(jwtTokenService.generateToken(userDetails));
+        return new RecoveryJwtTokenDto(
+                jwtTokenService.generateToken(userDetails),
+                userDetails.getId(),
+                userDetails.getUsername(), // O método getUsername() já retorna o email
+                userDetails.getNome()
+        );
     }
 
     public void createUser(CreateUserDto createUserDto) {

@@ -59,7 +59,7 @@ public class FlashcardService {
         novoFlashcard.setPergunta(flashcardDTORequest.getPergunta());
         novoFlashcard.setResposta(flashcardDTORequest.getResposta());
         novoFlashcard.setPonto(flashcardDTORequest.getPonto());
-        novoFlashcard.setStatus(flashcardDTORequest.getStatus());
+        novoFlashcard.setStatus(1);
         novoFlashcard.setMateria(materia);
 
         Flashcard flashcardSalvo = this.flashcardRepository.save(novoFlashcard);

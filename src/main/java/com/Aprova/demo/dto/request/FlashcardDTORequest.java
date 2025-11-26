@@ -4,7 +4,6 @@ public class FlashcardDTORequest {
     private String pergunta;
     private String resposta;
     private Integer ponto;
-    private Integer status;
     private Integer materiaId;
 
     public String getPergunta() {

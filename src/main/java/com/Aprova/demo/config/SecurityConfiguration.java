@@ -54,7 +54,7 @@ public class SecurityConfiguration {
             "/api/sessao-estudo/apagar",
             "/api/sessao-estudo/atualizar",
             "/api/materias/atualizar/{id}",
-            // REMOVIDO: "/api/materias/criar" - movido para ENDPOINTS_USUARIO_E_ADMINISTRADOR
+            "/api/materias/criar",
             "/api/materias/listar",
             "/api/materias/{id}",
             "/api/materias/apagar/{id}",
@@ -86,8 +86,6 @@ public class SecurityConfiguration {
                         //  endpoint do Bouncy Castle
                         .requestMatchers(ENDPOINTS_DE_DEMONSTRACAO).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        // NOVO: Endpoints acessíveis por USUARIO ou ADMINISTRADOR (deve vir ANTES das regras específicas)
-                        .requestMatchers(ENDPOINTS_USUARIO_E_ADMINISTRADOR).hasAnyAuthority("USUARIO", "ADMINISTRADOR")
                         .requestMatchers(ENDPOINTS_ADMINISTRADOR).hasAuthority("ADMINISTRADOR")
                         .requestMatchers(ENDPOINTS_USUARIO).hasAuthority("USUARIO")
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_REQUIRED).authenticated()
