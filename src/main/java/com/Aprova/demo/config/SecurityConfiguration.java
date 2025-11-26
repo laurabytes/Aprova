@@ -38,21 +38,23 @@ public class SecurityConfiguration {
     public static final String [] ENDPOINTS_WITH_AUTHENTICATION_REQUIRED = {
             "/api/flashcards/**"
     };
+    
     public static final String [] ENDPOINTS_ADMINISTRADOR = {
             "/api/usuarios/atualizar/{id}",
             "/api/usuarios/apagar/{id}",
             "/api/usuarios/{id}",
             "/api/usuarios/atualizar-status/{id}",
-            "/api/usuarios/listar",
-            "/api/materias/criar"
+            "/api/usuarios/listar"
+            // REMOVIDO: "/api/materias/criar" - movido para ENDPOINTS_USUARIO_E_ADMINISTRADOR
     };
+    
     public static final String [] ENDPOINTS_USUARIO = {
             "/api/sessao-estudo/criar",
             "/api/sessao-estudo/listar",
             "/api/sessao-estudo/apagar",
             "/api/sessao-estudo/atualizar",
             "/api/materias/atualizar/{id}",
-            "/api/materias/criar",
+            // REMOVIDO: "/api/materias/criar" - movido para ENDPOINTS_USUARIO_E_ADMINISTRADOR
             "/api/materias/listar",
             "/api/materias/{id}",
             "/api/materias/apagar/{id}",
@@ -60,10 +62,12 @@ public class SecurityConfiguration {
             "/api/metas/apagar/{id}",
             "/api/metas/criar",
             "/api/usuarios/atualizar/{id}",
-            "/api/usuarios/apagar/{id}",
-
-
-
+            "/api/usuarios/apagar/{id}"
+    };
+    
+    // NOVO: Endpoints que podem ser acedidos tanto por USUARIO quanto por ADMINISTRADOR
+    public static final String [] ENDPOINTS_USUARIO_E_ADMINISTRADOR = {
+            "/api/materias/criar"
     };
 
     public SecurityConfiguration(UserAuthenticationFilter userAuthenticationFilter) {
@@ -82,6 +86,8 @@ public class SecurityConfiguration {
                         //  endpoint do Bouncy Castle
                         .requestMatchers(ENDPOINTS_DE_DEMONSTRACAO).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        // NOVO: Endpoints acessíveis por USUARIO ou ADMINISTRADOR (deve vir ANTES das regras específicas)
+                        .requestMatchers(ENDPOINTS_USUARIO_E_ADMINISTRADOR).hasAnyAuthority("USUARIO", "ADMINISTRADOR")
                         .requestMatchers(ENDPOINTS_ADMINISTRADOR).hasAuthority("ADMINISTRADOR")
                         .requestMatchers(ENDPOINTS_USUARIO).hasAuthority("USUARIO")
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_REQUIRED).authenticated()
