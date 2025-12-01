@@ -21,60 +21,65 @@ public class SecurityConfiguration {
     @Autowired
     private UserAuthenticationFilter userAuthenticationFilter;
 
-    public static final String [] ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED = {
+    public static final String[] ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED = {
 
             "/swagger-ui.html",
             "/swagger-ui/**",
             "/v3/api-docs/**",
             "/api/usuarios/criar",
-            "/api/usuarios/login",
-            "/api/metas/criar",
-            "/api/metas/listar",
+            "/api/usuarios/login"
     };
 
-    // NOVO ENDPOINT DE SEGURANÇA LIBERADO AQUI
-    public static final String [] ENDPOINTS_DE_DEMONSTRACAO = {
+    public static final String[] ENDPOINTS_DE_DEMONSTRACAO = {
             "/api/seguranca/**"
     };
 
-    public static final String [] ENDPOINTS_WITH_AUTHENTICATION_REQUIRED = {
+    public static final String[] ENDPOINTS_WITH_AUTHENTICATION_REQUIRED = {
             "/api/flashcards/**"
     };
-    
-    public static final String [] ENDPOINTS_ADMINISTRADOR = {
-            "/api/usuarios/atualizar/{id}",
-            "/api/usuarios/apagar/{id}",
-            "/api/usuarios/{id}",
-            "/api/usuarios/atualizar-status/{id}",
+
+    // ADMIN
+    public static final String[] ENDPOINTS_ADMINISTRADOR = {
+            "/api/usuarios/atualizar/*",
+            "/api/usuarios/apagar/*",
+            "/api/usuarios/*",
+            "/api/usuarios/atualizar-status/*",
             "/api/usuarios/listar"
-            // REMOVIDO: "/api/materias/criar" - movido para ENDPOINTS_USUARIO_E_ADMINISTRADOR
     };
-    
-    public static final String [] ENDPOINTS_USUARIO = {
-            "/api/sessoes-estudo/criar",
+
+    // USUÁRIO
+    public static final String[] ENDPOINTS_USUARIO = {
+
+            // SESSÕES
             "/api/sessoes-estudo/listar",
-            "/api/sessoes-estudo/apagar",
-            "/api/sessoes-estudo/atualizar",
-            "/api/materias/atualizar/{id}",
+            "/api/sessoes-estudo/criar",
+            "/api/sessoes-estudo/apagar/*",
+            "/api/sessoes-estudo/atualizar/*",
+            "/api/sessoes-estudo/*",
+
+            // MATERIAS
             "/api/materias/criar",
             "/api/materias/listar",
-            "/api/materias/{id}",
-            "/api/materias/apagar/{id}",
-            "/api/metas/atualizar/{id}",
-            "/api/metas/apagar/{id}",
-            "/api/metas/{id}",
-            "/api/usuarios/atualizar/{id}",
-            "/api/usuarios/apagar/{id}",
+            "/api/materias/*",
+            "/api/materias/apagar/*",
+            "/api/materias/atualizar/*",
+
+            // METAS
+            "/api/metas/listar",
+            "/api/metas/criar",
+            "/api/metas/*",
+            "/api/metas/apagar/*",
+            "/api/metas/atualizar/*",
+            "/api/metas/atualizar-status/*",
+
+            // FLASHCARDS
             "/api/flashcards/criar",
-            "/api/flashcards/atualizar/{id}",
-            "/api/flashcards/apagar/{id}",
-            "/api/flashcards/listar"
+            "/api/flashcards/listar",
+            "/api/flashcards/*",
+            "/api/flashcards/apagar/*",
+            "/api/flashcards/atualizar/*"
     };
-    
-    // NOVO: Endpoints que podem ser acedidos tanto por USUARIO quanto por ADMINISTRADOR
-    public static final String [] ENDPOINTS_USUARIO_E_ADMINISTRADOR = {
-            "/api/materias/criar"
-    };
+
 
     public SecurityConfiguration(UserAuthenticationFilter userAuthenticationFilter) {
         this.userAuthenticationFilter = userAuthenticationFilter;
@@ -86,16 +91,19 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/api/usuarios/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/usuarios/criar").permitAll()
+                        // swagger liberado
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).permitAll()
-                        //  endpoint do Bouncy Castle
+                        // exemplos
                         .requestMatchers(ENDPOINTS_DE_DEMONSTRACAO).permitAll()
+                        // pré-flight
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        // Admin
                         .requestMatchers(ENDPOINTS_ADMINISTRADOR).hasAuthority("ADMINISTRADOR")
+                        // Usuário
                         .requestMatchers(ENDPOINTS_USUARIO).hasAuthority("USUARIO")
+                        // Flashcards autenticados
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_REQUIRED).authenticated()
-                        .anyRequest().denyAll()
+                        .anyRequest().authenticated()
                 )
                 .addFilterBefore(userAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

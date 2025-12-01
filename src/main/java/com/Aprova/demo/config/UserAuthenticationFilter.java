@@ -29,19 +29,36 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        // Verifica se o endpoint requer autenticação (se for público, pula essa validação)
         if (checkIfEndpointIsNotPublic(request)) {
             String token = recoveryToken(request);
+
+            // Só tenta validar se o token existir
             if (token != null) {
-                String subject = jwtTokenService.getSubjectFromToken(token);
-                Usuario usuario = usuarioRepository.findByEmail(subject).get();
-                UserDetailsImpl userDetails = new UserDetailsImpl(usuario);
+                try {
+                    // Tenta ler o token. Se for "undefined" ou inválido, isso vai gerar erro
+                    String subject = jwtTokenService.getSubjectFromToken(token);
 
-                Authentication authentication =
-                        new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
+                    if (subject != null) {
+                        Usuario usuario = usuarioRepository.findByEmail(subject).orElse(null);
 
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                        if (usuario != null) {
+                            UserDetailsImpl userDetails = new UserDetailsImpl(usuario);
+                            Authentication authentication =
+                                    new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
+
+                            SecurityContextHolder.getContext().setAuthentication(authentication);
+                        }
+                    }
+                } catch (Exception e) {
+                    // BLINDAGEM: Se o token for inválido (ex: "undefined"), cai aqui.
+                    // Não fazemos nada (não autentica), mas também NÃO QUEBRA a requisição.
+                    // O Spring Security vai barrar com 403 depois, pacificamente.
+                    System.out.println("Aviso: Token inválido ignorado: " + e.getMessage());
+                }
             }
         }
+        // Continua o fluxo normal
         filterChain.doFilter(request, response);
     }
 
@@ -56,7 +73,7 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
     private boolean checkIfEndpointIsNotPublic(HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         return Arrays.stream(SecurityConfiguration.ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).noneMatch(publicEndpoint ->
-                requestURI.startsWith(publicEndpoint.replace("/**", "")) // suporta wildcard
+                requestURI.startsWith(publicEndpoint.replace("/**", ""))
         );
     }
 }
