@@ -79,9 +79,8 @@ public class SecurityConfiguration {
             "/api/flashcards/atualizar/*",
 
             // PLANEJADOR (NOVAS ROTAS ADICIONADAS AQUI)
-            "/api/planejador/usuario/*", // Listar
-            "/api/planejador",           // Criar
-            "/api/planejador/*"          // Apagar ou Editar pelo ID
+            "/api/planejador/usuario/*",
+            "/api/planejador/*",
     };
 
 

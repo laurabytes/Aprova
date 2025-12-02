@@ -8,7 +8,7 @@ public class Planejador {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "planejador_id") // <--- O ERRO ESTAVA AQUI. O Java precisa saber o nome real no banco.
+    @Column(name = "planejador_id")
     private Integer id;
 
     @Column(name = "planejador_dia", nullable = false, length = 20)
