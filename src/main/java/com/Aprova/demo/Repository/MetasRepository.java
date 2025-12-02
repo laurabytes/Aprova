@@ -18,8 +18,9 @@ public interface MetasRepository extends JpaRepository<Metas, Integer> {
     @Query("UPDATE Metas m SET m.status = -1 WHERE m.metasId = :id")
     void apagarMetas(@Param("id") Integer metasId);
 
-    @Query("SELECT m FROM Metas m WHERE m.status >= 0")
-    List<Metas> listarMetas();
+    // CORREÇÃO: Adicionado filtro por usuarioId
+    @Query("SELECT m FROM Metas m WHERE m.usuario.id = :usuarioId AND m.status >= 0")
+    List<Metas> listarMetas(@Param("usuarioId") Integer usuarioId);
 
     @Query("SELECT m FROM Metas m WHERE m.metasId = :id")
     Metas obterMetasPorId(@Param("id") Integer metasId);

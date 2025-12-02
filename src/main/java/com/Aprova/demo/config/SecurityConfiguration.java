@@ -22,7 +22,6 @@ public class SecurityConfiguration {
     private UserAuthenticationFilter userAuthenticationFilter;
 
     public static final String[] ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED = {
-
             "/swagger-ui.html",
             "/swagger-ui/**",
             "/v3/api-docs/**",
@@ -77,7 +76,12 @@ public class SecurityConfiguration {
             "/api/flashcards/listar",
             "/api/flashcards/*",
             "/api/flashcards/apagar/*",
-            "/api/flashcards/atualizar/*"
+            "/api/flashcards/atualizar/*",
+
+            // PLANEJADOR (NOVAS ROTAS ADICIONADAS AQUI)
+            "/api/planejador/usuario/*", // Listar
+            "/api/planejador",           // Criar
+            "/api/planejador/*"          // Apagar ou Editar pelo ID
     };
 
 
@@ -99,7 +103,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         // Admin
                         .requestMatchers(ENDPOINTS_ADMINISTRADOR).hasAuthority("ADMINISTRADOR")
-                        // Usuário
+                        // Usuário (AQUI ELE JÁ PEGA O ARRAY ATUALIZADO COM O PLANEJADOR)
                         .requestMatchers(ENDPOINTS_USUARIO).hasAuthority("USUARIO")
                         // Flashcards autenticados
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_REQUIRED).authenticated()

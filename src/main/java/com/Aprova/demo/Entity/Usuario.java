@@ -36,6 +36,17 @@ Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SessaoEstudo> sessoesEstudo;
 
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Planejador> planejadorItens;
+
+    public List<Planejador> getPlanejadorItens() {
+        return planejadorItens;
+    }
+
+    public void setPlanejadorItens(List<Planejador> planejadorItens) {
+        this.planejadorItens = planejadorItens;
+    }
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name="usuario_role",
             joinColumns = @JoinColumn(name = "usuario_id"),

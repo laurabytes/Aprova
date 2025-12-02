@@ -1,6 +1,5 @@
 package com.Aprova.demo.Controller;
 
-import com.Aprova.demo.Entity.Materia;
 import com.Aprova.demo.Service.MateriaService;
 import com.Aprova.demo.dto.request.MateriaDTORequest;
 import com.Aprova.demo.dto.response.MateriaDTOResponse;
@@ -19,13 +18,11 @@ public class MateriaController {
     @Autowired
     private MateriaService materiaService;
 
-
+    // CORREÇÃO: Lê o ?usuarioId=X da URL
     @GetMapping("/listar")
-    public ResponseEntity<List<MateriaDTOResponse>> listarMaterias(){
-
-        return ResponseEntity.ok(materiaService.listarMaterias());
+    public ResponseEntity<List<MateriaDTOResponse>> listarMaterias(@RequestParam Integer usuarioId){
+        return ResponseEntity.ok(materiaService.listarMaterias(usuarioId));
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<MateriaDTOResponse> listarMateriaId(@PathVariable Integer id) {

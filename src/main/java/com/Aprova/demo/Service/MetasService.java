@@ -28,31 +28,27 @@ public class MetasService {
         this.modelMapper = modelMapper;
     }
 
-    public List<MetasDTOResponse> listarMetas(){
-
-        List<Metas> listarMetas = metasRepository.listarMetas();
-        List<MetasDTOResponse> responses = listarMetas.stream()
+    // CORREÇÃO: Recebe o ID do usuário
+    public List<MetasDTOResponse> listarMetas(Integer usuarioId){
+        List<Metas> listarMetas = metasRepository.listarMetas(usuarioId);
+        return listarMetas.stream()
                 .map(metas -> modelMapper.map(metas,MetasDTOResponse.class))
                 .collect(Collectors.toList());
-        return responses;
     }
 
     public Metas listarMetasId(Integer metasId) {
         Metas meta = this.metasRepository.obterMetasPorId(metasId);
         if (meta == null || meta.getStatus() < 0) {
-            throw new IllegalArgumentException("Meta com ID " + metasId + " não encontrada.");
+            throw new IllegalArgumentException("Meta não encontrada.");
         }
         return meta;
     }
 
     public MetasDTOResponse criarMetas(MetasDTORequest metasDTOrequest) {
-
         Usuario usuario = usuarioRepository.obterUsuarioPorId(metasDTOrequest.getUsuarioId());
-
         if (usuario == null){
             throw new IllegalArgumentException("Usuario não existe");
         }
-
         Metas meta = new Metas();
         meta.setNome(metasDTOrequest.getNome());
         meta.setData(metasDTOrequest.getData());
@@ -60,20 +56,15 @@ public class MetasService {
         meta.setUsuario(usuario);
 
         Metas metasSave = this.metasRepository.save(meta);
-        MetasDTOResponse metasDTOResponse = modelMapper.map(metasSave, MetasDTOResponse.class);
-        return metasDTOResponse;
+        return modelMapper.map(metasSave, MetasDTOResponse.class);
     }
 
     public MetasDTOResponse atualizarMetas(Integer metasId, MetasDTORequest metasDTORequest) {
         Metas metas = this.listarMetasId(metasId);
-
-
         metas.setNome(metasDTORequest.getNome());
         metas.setData(metasDTORequest.getData());
         metas.setStatus(metasDTORequest.getStatus());
-
         Metas tempResponse = metasRepository.save(metas);
-
         return modelMapper.map(tempResponse, MetasDTOResponse.class);
     }
 

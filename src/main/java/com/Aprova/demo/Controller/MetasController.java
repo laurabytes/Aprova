@@ -1,15 +1,12 @@
 package com.Aprova.demo.Controller;
 
-import com.Aprova.demo.Entity.Materia;
 import com.Aprova.demo.Entity.Metas;
-import com.Aprova.demo.Service.MateriaService;
 import com.Aprova.demo.Service.MetasService;
-import com.Aprova.demo.dto.request.MateriaDTORequest;
 import com.Aprova.demo.dto.request.MetasDTORequest;
-import com.Aprova.demo.dto.response.MateriaDTOResponse;
+import com.Aprova.demo.dto.request.MetasDTOUpdateRequest;
 import com.Aprova.demo.dto.response.MetasDTOResponse;
+import com.Aprova.demo.dto.response.MetasDTOUpdateResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Meta;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +21,11 @@ public class MetasController {
     @Autowired
     private MetasService metasService;
 
-
+    // CORREÇÃO: Lê o ?usuarioId=X da URL
     @GetMapping("/listar")
-    public ResponseEntity<List<MetasDTOResponse>> listarMetas(){
-
-        return ResponseEntity.ok(metasService.listarMetas());
+    public ResponseEntity<List<MetasDTOResponse>> listarMetas(@RequestParam Integer usuarioId){
+        return ResponseEntity.ok(metasService.listarMetas(usuarioId));
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<Metas> listarMetasId(@PathVariable Integer id) {
@@ -47,6 +42,11 @@ public class MetasController {
     public ResponseEntity<MetasDTOResponse> atualizarMetas(@PathVariable Integer id, @RequestBody MetasDTORequest metasDTORequest) {
         MetasDTOResponse response = metasService.atualizarMetas(id, metasDTORequest);
         return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/atualizar-status/{id}")
+    public ResponseEntity<MetasDTOUpdateResponse> atualizarStatusMetas(@PathVariable Integer id, @RequestBody MetasDTOUpdateRequest req) {
+        return ResponseEntity.ok(metasService.atualizarStatusMetas(id, req));
     }
 
     @DeleteMapping("/apagar/{id}")

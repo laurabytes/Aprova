@@ -22,20 +22,18 @@ public class MateriaService {
     @Autowired
     private ModelMapper modelMapper;
 
-
     public MateriaService(MateriaRepository materiaRepository, UsuarioRepository usuarioRepository) {
         this.materiaRepository = materiaRepository;
         this.usuarioRepository = usuarioRepository;
     }
 
-
-    public List<MateriaDTOResponse> listarMaterias(){
-        List<Materia> materias = materiaRepository.listarMaterias();
+    // CORREÇÃO: Recebe o ID do usuário
+    public List<MateriaDTOResponse> listarMaterias(Integer usuarioId){
+        List<Materia> materias = materiaRepository.listarMaterias(usuarioId);
         return materias.stream()
                 .map(materia -> modelMapper.map(materia, MateriaDTOResponse.class))
                 .collect(Collectors.toList());
     }
-
 
     public MateriaDTOResponse listarMateriaId(Integer materiaId) {
         Materia materia = materiaRepository.obterMateriaPorId(materiaId);
@@ -48,9 +46,8 @@ public class MateriaService {
     public MateriaDTOResponse criarMateria(MateriaDTORequest materiaDTOrequest) {
         Usuario usuario = usuarioRepository.obterUsuarioPorId(materiaDTOrequest.getUsuarioId());
         if (usuario == null) {
-            throw new IllegalArgumentException("Usuário com ID " + materiaDTOrequest.getUsuarioId() + " não encontrado para associar à matéria.");
+            throw new IllegalArgumentException("Usuário não encontrado.");
         }
-
 
         Materia novaMateria = new Materia();
         novaMateria.setNome(materiaDTOrequest.getNome());
@@ -60,16 +57,14 @@ public class MateriaService {
         novaMateria.setUsuario(usuario);
 
         Materia materiaSalva = this.materiaRepository.save(novaMateria);
-
         return modelMapper.map(materiaSalva, MateriaDTOResponse.class);
     }
 
     public MateriaDTOResponse atualizarMateria(Integer materiaId, MateriaDTORequest materiaDTORequest) {
         Materia materia = this.materiaRepository.obterMateriaPorId(materiaId);
         if (materia == null){
-            throw new IllegalArgumentException("Matéria com ID " + materiaId + " não encontrada para atualização.");
+            throw new IllegalArgumentException("Matéria não encontrada.");
         }
-
         materia.setNome(materiaDTORequest.getNome());
         materia.setCor(materiaDTORequest.getCor());
         materia.setPrioridade(materiaDTORequest.getPrioridade());

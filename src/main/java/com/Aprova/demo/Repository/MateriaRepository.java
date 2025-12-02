@@ -18,8 +18,9 @@ public interface MateriaRepository extends JpaRepository<Materia, Integer> {
     @Query("UPDATE Materia p SET p.status = -1 WHERE p.id = :id")
     void apagadoLogicoMateria(@Param("id") Integer materiaId);
 
-    @Query("SELECT p FROM Materia p WHERE p.status >= 0")
-    List<Materia> listarMaterias();
+    // CORREÇÃO: Adicionado filtro por usuarioId
+    @Query("SELECT p FROM Materia p WHERE p.usuario.id = :usuarioId AND p.status >= 0")
+    List<Materia> listarMaterias(@Param("usuarioId") Integer usuarioId);
 
     @Query("SELECT p FROM Materia p WHERE p.id=:id AND p.status >= 0")
     Materia obterMateriaPorId(@Param("id") Integer materiaId);
