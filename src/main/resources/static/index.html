@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprova App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* O CSS foi mantido o mais fiel possível ao do GetMoney, apenas ajustando para 3 ou 4 cards de screenshot/funcionalidades */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%);
+            min-height: 100vh;
+            color: #1F2937;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px 15px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+            color: #059669;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #6B7280;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .content {
+            background: #FFFFFF;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.15);
+            margin: 15px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #10B981, #059669, #047857);
+        }
+
+        h2 {
+            color: #059669;
+            margin-bottom: 16px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        h3 {
+            color: #047857;
+            margin: 20px 0 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        p {
+            margin-bottom: 12px;
+            color: #1F2937;
+            font-size: 0.95rem;
+        }
+
+        .install-btn {
+            display: block;
+            background: linear-gradient(to right, #10B981, #059669);
+            color: #FFFFFF;
+            padding: 16px 25px;
+            text-decoration: none;
+            border-radius: 10px;
+            text-align: center;
+            margin: 25px 0 15px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .install-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .install-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #ECFDF5;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .feature-card h4 {
+            color: #047857;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .feature-card p {
+            font-size: 0.9rem;
+            color: #1F2937;
+            margin: 0;
+        }
+
+        .tech-stack {
+            display: flex;
+            justify-content: space-between;
+            margin: 25px 0;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .tech-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(16, 185, 129, 0.1);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: #1F2937;
+        }
+
+        .tech-icon {
+            color: #10B981;
+            font-weight: bold;
+        }
+
+        /* Estilos para a seção de preview das telas */
+        .app-preview {
+            margin: 30px 0;
+        }
+        /* Ajuste para 3 colunas, adaptando o grid para 4 se quiser mais tarde */
+        .screenshots-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 colunas por padrão */
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        @media (min-width: 768px) {
+            .screenshots-grid {
+                grid-template-columns: repeat(4, 1fr); /* 4 colunas em telas maiores */
+            }
+        }
+
+        .screenshot-card {
+            background: #F8FAFC;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .screenshot-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .screenshot-content {
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .screenshot-image {
+            width: 100%;
+            height: 160px;
+            object-fit: contain;
+            display: block;
+            border-radius: 10px;
+            padding: 5px;
+            background: white;
+        }
+
+        .image-description {
+            padding: 12px;
+            text-align: center;
+            color: #6B7280;
+            font-size: 0.85rem;
+            background: #F8FAFC;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .screenshots-grid {
+                grid-template-columns: 1fr; /* 1 coluna em telas menores */
+                gap: 12px;
+            }
+
+            .header h1 {
+                font-size: 1.9rem;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .tech-stack {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .screenshot-image {
+                height: 170px;
+            }
+
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px 10px;
+            }
+
+            .header {
+                padding: 20px 0;
+            }
+
+            .header h1 {
+                font-size: 1.7rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .install-btn {
+                font-size: 1rem;
+                padding: 14px 20px;
+            }
+
+            .screenshot-image {
+                height: 150px;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+
+            h3 {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Ajustes para telas muito pequenas */
+        @media (max-width: 360px) {
+            .screenshot-image {
+                height: 140px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🎓 Aprova App</h1>
+        <p>Gerencie seus estudos de forma inteligente</p>
+    </div>
+
+    <div class="content">
+        <h2>📱 Sobre o Aplicativo</h2>
+        <p>Aprova é um aplicativo mobile focado na gestão completa dos seus estudos. Utilize ferramentas como o timer Pomodoro, defina metas e acompanhe seu progresso em cada matéria para garantir o melhor desempenho.</p>
+
+        <div class="app-preview">
+            <h3>📸 Preview do Aplicativo</h3>
+            <div class="screenshots-grid">
+
+                <div class="screenshot-card">
+                    <div class="screenshot-content">
+                        <img src="./images/1.jpeg" alt="Tela de Dashboard" class="screenshot-image">
+                        <div class="image-description">
+                            Visão geral do seu progresso (Dashboard)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="screenshot-card">
+                    <div class="screenshot-content">
+                        <img src="./images/2.jpeg" alt="Tela de Matérias" class="screenshot-image">
+                        <div class="image-description">
+                            Gerenciamento de Matérias
+                        </div>
+                    </div>
+                </div>
+
+                <div class="screenshot-card">
+                    <div class="screenshot-content">
+                        <img src="./images/3.jpeg" alt="Tela Pomodoro" class="screenshot-image">
+                        <div class="image-description">
+                            Timer Pomodoro para foco
+                        </div>
+                    </div>
+                </div>
+
+                <div class="screenshot-card">
+                    <div class="screenshot-content">
+                        <img src="./images/4.jpeg" alt="Tela de Metas" class="screenshot-image">
+                        <div class="image-description">
+                            Definição e acompanhamento de Metas
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <h3>🚀 Funcionalidades Principais</h3>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <h4>Acompanhamento de Matérias</h4>
+                <p>Monitore seu desempenho e tempo dedicado em cada disciplina do seu curso.</p>
+            </div>
+            <div class="feature-card">
+                <h4>Definição de Objetivos</h4>
+                <p>Crie metas de estudo de curto, médio e longo prazo e visualize seu progresso.</p>
+            </div>
+            <div class="feature-card">
+                <h4>Timer Pomodoro</h4>
+                <p>Utilize a técnica Pomodoro para sessões de estudo focadas e pausas programadas.</p>
+            </div>
+            <div class="feature-card">
+                <h4>Flashcards e Revisão</h4>
+                <p>Recurso de flashcards e agendamento de revisões para otimizar a memorização.</p>
+            </div>
+        </div>
+
+        <h3>🛠 Tecnologias Utilizadas</h3>
+        <div class="tech-stack">
+            <div class="tech-item">
+                <span class="tech-icon">⚛️</span> <span>React Native</span>
+            </div>
+            <div class="tech-item">
+                <span class="tech-icon">☕</span> <span>Spring Boot (Backend)</span>
+            </div>
+            <div class="tech-item">
+                <span class="tech-icon">🗄️</span> <span>Banco de Dados</span>
+            </div>
+            <div class="tech-item">
+                <span class="tech-icon">🔒</span> <span>Autenticação JWT</span>
+            </div>
+        </div>
+
+        <a href="install.html" class="install-btn">📥 Baixar Aplicativo</a>
+    </div>
+</div>
+</body>
+</html>
