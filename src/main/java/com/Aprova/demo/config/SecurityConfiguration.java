@@ -31,7 +31,6 @@ public class SecurityConfiguration {
             "/app-release.apk",
             "/index.html",
             "/install.html",
-            "/",
             "/img/**",
             "/img/*",
             "/img"
