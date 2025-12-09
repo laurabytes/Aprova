@@ -30,7 +30,11 @@ public class SecurityConfiguration {
             "/download-apk",
             "/app-release.apk",
             "/index.html",
-            "/install.html"
+            "/install.html",
+            "/",
+            "/img/**",
+            "/img/*",
+            "/img"
     };
 
     public static final String[] ENDPOINTS_DE_DEMONSTRACAO = {
@@ -47,11 +51,7 @@ public class SecurityConfiguration {
             "/api/usuarios/apagar/*",
             "/api/usuarios/*",
             "/api/usuarios/atualizar-status/*",
-            "/api/usuarios/listar",
-            "/",
-            "/img/**",
-            "/img/*",
-            "/img"
+            "/api/usuarios/listar"
 
     };
 
