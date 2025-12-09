@@ -43,7 +43,9 @@ public class SecurityConfiguration {
             "/api/usuarios/apagar/*",
             "/api/usuarios/*",
             "/api/usuarios/atualizar-status/*",
-            "/api/usuarios/listar"
+            "/api/usuarios/listar",
+            "/index.html",
+            "/install.html"
     };
 
     // USUÁRIO
