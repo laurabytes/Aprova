@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* O CSS foi mantido o mais fiel possível ao do GetMoney, apenas com pequenos ajustes para o novo conteúdo */
+        /* O CSS foi ajustado para o esquema de cores azul (Blue) */
         * {
             margin: 0;
             padding: 0;
@@ -350,7 +350,7 @@
                 <p class="qrcode-text">Escaneie ou clique para baixar o arquivo de instalação direta:</p>
 
                 <div class="qrcode-container">
-                    <img id="qrcode-apk-image" src="./img/qrcodeapk.png" alt="QR Code para baixar Aprova App APK">
+                    <img id="qrcode-apk-image" src="../img/qrcodeapk.png" alt="QR Code para baixar Aprova App APK">
                 </div>
 
                 <div class="qr-fallback" id="qr-fallback-apk">
@@ -370,7 +370,7 @@
                 <p class="expo-text">Escaneie para abrir no app **Expo Go**:</p>
 
                 <div class="expo-container">
-                    <img id="qrcode-expo-image" src="./img/qrcodeExpo.png" alt="QR Code para abrir no Expo Go">
+                    <img id="qrcode-expo-image" src="../img/qrcodeExpo.png" alt="QR Code para abrir no Expo Go">
                 </div>
 
                 <div class="qr-fallback" id="qr-fallback-expo">
@@ -454,8 +454,8 @@
 
 <script>
     // As URLs de download precisam ser configuradas aqui também para o fallback
-    const APK_URL = "https://expo.dev/accounts/lauraf4gundes/projects/aprova-app/builds/a8d7b59b-6e0b-4cfa-b1db-9bc392034e7a"; // Substituído pela URL real do APK
-    const EXPO_URL = "[URL_DO_SEU_EXPO_AQUI]"; // Mantido o placeholder, pois apenas o link do APK foi fornecido
+    const APK_URL = "https://expo.dev/accounts/lauraf4gundes/projects/aprova-app/builds/a8d7b59b-6e0b-4cfa-b1db-9bc392034e7a"; // URL real do APK
+    const EXPO_URL = "[URL_DO_SEU_EXPO_AQUI]"; // Mantido o placeholder
 
     document.addEventListener('DOMContentLoaded', function() {
         // Lógica para o APK
