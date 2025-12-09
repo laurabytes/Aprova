@@ -26,7 +26,11 @@ public class SecurityConfiguration {
             "/swagger-ui/**",
             "/v3/api-docs/**",
             "/api/usuarios/criar",
-            "/api/usuarios/login"
+            "/api/usuarios/login",
+            "/download-apk",
+            "/app-release.apk",
+            "/index.html",
+            "/install.html"
     };
 
     public static final String[] ENDPOINTS_DE_DEMONSTRACAO = {
