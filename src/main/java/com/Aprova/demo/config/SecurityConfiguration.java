@@ -48,7 +48,11 @@ public class SecurityConfiguration {
             "/api/usuarios/*",
             "/api/usuarios/atualizar-status/*",
             "/api/usuarios/listar",
-            "/"
+            "/",
+            "/img/**",
+            "/img/*",
+            "/img"
+
     };
 
     // USUÁRIO
