@@ -33,7 +33,8 @@ public class SecurityConfiguration {
             "/install.html",
             "/img/**",
             "/img/*",
-            "/img"
+            "/img",
+            "/video"
     };
 
     public static final String[] ENDPOINTS_DE_DEMONSTRACAO = {
