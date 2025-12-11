@@ -34,8 +34,9 @@ public class SecurityConfiguration {
             "/img/**",
             "/img/*",
             "/img",
-            "/video",
-            "/demo.mp4",
+            "/video/**",
+
+
     };
 
     public static final String[] ENDPOINTS_DE_DEMONSTRACAO = {
