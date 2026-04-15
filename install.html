@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instalar Aprova App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /*
+        * ----------------------------------------------------
+        * Identidade Visual: Azul Ciano (#2693BE) e Layout Minimalista
+        * ----------------------------------------------------
+        */
+        :root {
+            --color-primary: #2693BE;
+            --color-primary-dark: #1E7B9A;
+            --color-primary-light: #4AC7E8;
+            --color-background: #EFF6FF;
+            --color-background-soft: #FFFFFF;
+            --color-text: #1F2937;
+            --color-muted: #6B7280;
+            --color-warning: #F59E0B;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--color-background);
+            min-height: 100vh;
+            color: var(--color-text);
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 0 40px;
+            background: linear-gradient(180deg, var(--color-background) 0%, #DBEAFE 100%);
+            margin-bottom: 30px;
+            border-bottom: 3px solid var(--color-primary-light);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            color: var(--color-primary-dark);
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: var(--color-muted);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        section {
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        h2 {
+            color: var(--color-primary-dark);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        h3 {
+            color: var(--color-primary-dark);
+            margin: 40px 0 20px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            border-bottom: 1px dashed var(--color-primary-light);
+            padding-bottom: 10px;
+            text-align: left;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: var(--color-text);
+            font-size: 1rem;
+            text-align: left;
+        }
+
+        /* Seção principal de download */
+        .download-section {
+            background: var(--color-background-soft);
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            border-top: 5px solid var(--color-primary);
+            margin-top: 30px;
+        }
+
+        .qrcode-text {
+            color: var(--color-primary-dark);
+            font-weight: 600;
+            margin: 15px 0 25px;
+            font-size: 1.1rem;
+        }
+
+        .qrcode-container {
+            display: inline-block;
+            padding: 15px;
+            background: var(--color-background);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin: 15px 0;
+            border: 2px solid var(--color-primary);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .qrcode-container:hover {
+            transform: scale(1.05);
+        }
+
+        .qrcode-container img {
+            width: 200px;
+            height: 200px;
+            border-radius: 8px;
+            display: block;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+            text-align: left;
+        }
+
+        .step-card {
+            background: var(--color-background-soft);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid var(--color-primary-light);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .step-number {
+            background: var(--color-primary);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 5px rgba(38, 147, 190, 0.3);
+        }
+
+        .step-card h4 {
+            color: var(--color-primary-dark);
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .install-btn {
+            display: block;
+            background: var(--color-primary);
+            color: #FFFFFF;
+            padding: 18px 25px;
+            text-decoration: none;
+            border-radius: 12px;
+            text-align: center;
+            margin: 30px auto 15px;
+            max-width: 300px;
+            font-weight: 700;
+            font-size: 1.3rem;
+            box-shadow: 0 6px 15px rgba(38, 147, 190, 0.5);
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .install-btn:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(38, 147, 190, 0.7);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--color-primary-dark);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            padding: 10px 0;
+            font-size: 1rem;
+        }
+
+        .back-btn:hover {
+            color: var(--color-primary);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1><i class="fas fa-hand-point-down"></i> Download e Instalação</h1>
+        <p>Baixe o arquivo de instalação (APK) do Aprova App para seu dispositivo Android.</p>
+    </header>
+
+    <section id="download-links">
+
+        <div class="download-section">
+            <h2><i class="fas fa-android"></i> Baixar APK (Android)</h2>
+            <p class="qrcode-text">Escaneie o QR Code ou clique para iniciar o download do arquivo de instalação:</p>
+
+            <div class="qrcode-container" onclick="window.open('https://expo.dev/artifacts/eas/xipFZ9Ts95MS75zUjczFja.apk', '_blank');">
+                <img id="qrcode-apk-image" src="./img/qrcodeapk.png" alt="QR Code para baixar Aprova App APK">
+            </div>
+
+            <a id="download-apk-btn-main" href="https://expo.dev/artifacts/eas/xipFZ9Ts95MS75zUjczFja.apk" class="install-btn">
+                <i class="fas fa-download"></i> Baixar Arquivo APK
+            </a>
+            <p style="text-align: center; font-size: 0.85rem; color: var(--color-muted); margin-top: 10px;">Link direto: https://expo.dev/artifacts/eas/xipFZ9Ts95MS75zUjczFja.apk</p>
+        </div>
+    </section>
+
+    <section id="install-steps">
+        <div style="max-width: 600px; margin: 0 auto;">
+            <h3><i class="fas fa-list-ol"></i> Passos para Instalação no Android</h3>
+
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h4>Baixe o APK</h4>
+                    <p>Utilize o botão de download acima ou escaneie o QR Code (clicável).</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h4>Permita Fontes Externas</h4>
+                    <p>Vá até as configurações de segurança do seu Android e autorize a instalação de aplicativos de fontes desconhecidas (exigido fora da Play Store).</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h4>Instale e Abra</h4>
+                    <p>Execute o arquivo APK na sua pasta "Downloads" e toque em "Instalar" para finalizar a configuração.</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h4>Tudo Pronto!</h4>
+                    <p>Abra o Aprova App e inicie seu planejamento de estudos de forma eficiente.</p>
+                </div>
+            </div>
+        </div>
+
+        <p style="text-align: center; margin-top: 50px;">
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Voltar para a Documentação do Projeto
+            </a>
+        </p>
+    </section>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const APK_URL = "https://expo.dev/artifacts/eas/xipFZ9Ts95MS75zUjczFja.apk";
+
+        // Garante que o link do botão esteja correto
+        document.getElementById('download-apk-btn-main').href = APK_URL;
+    });
+</script>
+</body>
+</html>
